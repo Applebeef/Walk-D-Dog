@@ -1,20 +1,29 @@
-import { StyleSheet, View, Image } from "react-native";
+import { StyleSheet, View, Image, Dimensions } from "react-native";
+import MapView from "react-native-maps";
 
 const MapContainer = () => {
   return (
-    <View style={styles.map}>
-      <Image source={require("../assets/Map-Placeholder.png")}></Image>
+    <View style={styles.mapContainer}>
+      <MapView></MapView>
+      <Image
+        style={styles.map}
+        source={require("../assets/Map-Placeholder.png")}
+      ></Image>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  map: {
+  mapContainer: {
     alignContent: "center",
     alignItems: "center",
+    justifyContent: "center",
     borderWidth: 2,
     borderColor: "black",
-    transform: [{ scale: 0.7 }],
+  },
+  map: {
+    width: Dimensions.get("window").width * 0.95,
+    height: Dimensions.get("window").height * 0.58,
   },
 });
 
