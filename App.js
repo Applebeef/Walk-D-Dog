@@ -35,6 +35,6 @@ const styles = StyleSheet.create({
   map: {},
   buttonsContainer:{
     position: "absolute",
-    bottom: 40,
+    bottom: 10,
   },
 });

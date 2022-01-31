@@ -4,11 +4,7 @@ import MapView from "react-native-maps";
 const MapContainer = () => {
   return (
     <View style={styles.mapContainer}>
-      <MapView></MapView>
-      <Image
-        style={styles.map}
-        source={require("../assets/Map-Placeholder.png")}
-      ></Image>
+      <MapView style={styles.map}></MapView>
     </View>
   );
 };

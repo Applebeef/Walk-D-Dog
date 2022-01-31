@@ -1,11 +1,12 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { LinearGradient } from 'expo-linear-gradient';
 
 const ButtonsContainer = () => {
   return (
     <View style={styles.container}>
-      <MenuButton text="1" />
-      <MenuButton text="2" />
-      <MenuButton text="3" />
+      <MenuButton text="My profile" />
+      <MenuButton text="Chats" />
+      <MenuButton text="Plan trip" />
     </View>
   );
 };
@@ -21,11 +22,11 @@ const MenuButton = (props) => {
   };
 
   return (
-    <View style={styles.menuButton}>
+    <LinearGradient colors={['#93bc81','#dcecd5']} style={styles.menuButton}>
       <TouchableOpacity onPress={handlePress}>
         <Text style={styles.menuButtonText}>{props.text}</Text>
       </TouchableOpacity>
-    </View>
+    </LinearGradient>
   );
 };
 
@@ -33,24 +34,27 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     borderWidth: 3,
+    borderRadius: 7,
+    backgroundColor: "#7fc360",
     borderColor: "black",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
   },
   menuButton: {
-    margin: 20,
+    margin: 10,
     borderColor: "black",
-    backgroundColor: "#23C57D",
     borderWidth: 2,
-    borderRadius: 60,
-    height: 70,
-    width: 70,
+    borderRadius: 15,
+    height: 100,
+    width: 100,
     alignItems: "center",
     justifyContent: "center",
   },
   menuButtonText: {
-    fontSize: 50,
+    fontSize: 18,
+    textAlign: "center",
+    fontStyle: "italic",
   },
 });
 
