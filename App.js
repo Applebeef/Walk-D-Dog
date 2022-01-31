@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   },
   title: {
     position: "absolute",
-    top: 30,
+    top: 40,
   },
   map: {},
   buttonsContainer: {

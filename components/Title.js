@@ -3,10 +3,9 @@ import { StyleSheet, Text, View, Image } from "react-native";
 const Title = () => {
   return (
     <View style={styles.titleContainer}>
-      <Text style={styles.title}>Walk-D-Dog</Text>
       <Image
         style={styles.logo}
-        source={require("../assets/WalkDDog-PlaceHolderLogo.png")}
+        source={require("../assets/WalkDDog-Logo.png")}
       ></Image>
     </View>
   );
@@ -14,20 +13,13 @@ const Title = () => {
 
 const styles = StyleSheet.create({
   titleContainer: {
-    backgroundColor: "brown",
     borderRadius: 60,
-    borderWidth: 2,
-    padding: 15,
+    borderWidth: 5,
     alignItems: "center",
   },
-  title: {
-    textDecorationLine: "underline",
-    fontWeight: "bold",
-    fontSize: 30,
-  },
   logo: {
-    width: 60,
-    height: 60,
+    width: 100,
+    height: 100,
   },
 });
 
