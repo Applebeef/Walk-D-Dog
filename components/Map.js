@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, View, Dimensions } from "react-native";
+import { StyleSheet, View, Dimensions, TouchableOpacity } from "react-native";
 import MapView from "react-native-maps";
-import Geocoder from "react-native-geocoding";
+import * as Location from "expo-location";
 
 const MapContainer = () => {
-  const [location, setLocation] = useState(null);
+  const [region, setRegion] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const key = "AIzaSyAHx3VwmotBdOTNMMup8VE5ZoTYC1aGQkA";
 
@@ -17,18 +17,11 @@ const MapContainer = () => {
         return;
       }
       let locationRes = await Location.getCurrentPositionAsync({});
-      setLocation(locationRes);
+      setRegion(convertLocationToRegion(locationRes));
     })();
-    Geocoder.init(key);
-    Geocoder.from("dog park", {
-      latitude: location.coords.latitude,
-      longitude: location.coords.longitude,
-    }).then((json) => {
-      console.log(json);
-    });
   }, []);
 
-  const convertLocationToRegion = () => {
+  const convertLocationToRegion = (location) => {
     return {
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
@@ -40,7 +33,7 @@ const MapContainer = () => {
   return (
     <View style={styles.mapContainer}>
       <MapView
-        region={convertLocationToRegion()}
+        region={region}
         showsUserLocation={true}
         showsPointsOfInterest={false}
         style={styles.map}
