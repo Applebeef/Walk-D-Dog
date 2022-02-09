@@ -5,6 +5,7 @@ import * as Location from "expo-location";
 
 const MapContainer = () => {
   const [region, setRegion] = useState(null);
+  const [nearbyParks, setNearbyParks] = useState([]);
   const [errorMsg, setErrorMsg] = useState(null);
   const key = "AIzaSyAHx3VwmotBdOTNMMup8VE5ZoTYC1aGQkA";
 
@@ -18,23 +19,41 @@ const MapContainer = () => {
       }
       let locationRes = await Location.getCurrentPositionAsync({});
       setRegion(convertLocationToRegion(locationRes));
+
       getNearbyPlaces(
         locationRes.coords.latitude,
-        locationRes.coords.longitude,
-        '"Dog Park"'
-      );
+        locationRes.coords.longitude
+      ).then((res) => {
+        setNearbyParks(res.map((park) => createParkMarker(park)));
+      });
+      console.log(nearbyParks)
     })();
   }, []);
-  
+
+  const createParkMarker = (park) => {
+    return (
+      <MapView.Marker
+        coordinate={{
+          latitude: park.geometry.location.lat,
+          longitude: park.geometry.location.lng,
+        }}
+        title={park.name}
+        key={park.place_id}
+      />
+    );
+  };
 
   //Send request to Google Places API to get nearby places
-  const getNearbyPlaces = async (lat, lng, Keyword) => {
-    let url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=5000&type=${Keyword}&key=${key}`;
+  const getNearbyPlaces = async (
+    lat,
+    lng,
+    type = '"park"',
+    keyword = '"Dog Park"'
+  ) => {
+    let url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=5000&type=${type}&keyword=${keyword}&key=${key}`;
     let response = await fetch(url);
-    console.log(url);
     let responseJson = await response.json();
-    console.log(responseJson);
-    return responseJson;
+    return responseJson.results;
   };
 
   const convertLocationToRegion = (location) => {
@@ -53,7 +72,9 @@ const MapContainer = () => {
         showsUserLocation={true}
         showsPointsOfInterest={false}
         style={styles.map}
-      ></MapView>
+      >
+        {nearbyParks}
+      </MapView>
     </View>
   );
 };
