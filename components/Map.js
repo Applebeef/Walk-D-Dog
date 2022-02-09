@@ -1,20 +1,30 @@
-import { useState } from "react";
-import { StyleSheet, View, Dimensions } from "react-native";
+import { useEffect, useState } from "react";
+import { StyleSheet, View, Dimensions, TouchableOpacity } from "react-native";
 import MapView from "react-native-maps";
-import Geocoder from "react-native-geocoding";
+import * as Location from "expo-location";
 
-const MapContainer = (props) => {
-  Geocoder.init(props.apiKey); // TODO restrict api key. 
+const MapContainer = () => {
+  const [region, setRegion] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+  const key = "AIzaSyAHx3VwmotBdOTNMMup8VE5ZoTYC1aGQkA";
 
-  let list = Geocoder.from("dog park").then((json) => {//FIXME
-    var location = json.results[0].geometry.location;
-    console.log(location);
-  });
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        console.log(errorMsg);
+        return;
+      }
+      let locationRes = await Location.getCurrentPositionAsync({});
+      setRegion(convertLocationToRegion(locationRes));
+    })();
+  }, []);
 
-  const convertLocationToRegion = () => {
+  const convertLocationToRegion = (location) => {
     return {
-      latitude: props.location?.coords.latitude,
-      longitude: props.location?.coords.longitude,
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
       latitudeDelta: 0.015,
       longitudeDelta: 0.015,
     };
@@ -23,7 +33,7 @@ const MapContainer = (props) => {
   return (
     <View style={styles.mapContainer}>
       <MapView
-        region={convertLocationToRegion()}
+        region={region}
         showsUserLocation={true}
         showsPointsOfInterest={false}
         style={styles.map}

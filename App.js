@@ -1,37 +1,23 @@
 import { StatusBar } from "expo-status-bar";
-import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import MapContainer from "./components/Map";
 import Title from "./components/Title";
 import ButtonsContainer from "./components/Buttons";
 import { useState, useEffect } from "react";
 import * as Location from "expo-location";
+// import { NavigationContainer } from "@react-navigation/native";
+// import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+// const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const [location, setLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
-
-  const key = "AIzaSyAHx3VwmotBdOTNMMup8VE5ZoTYC1aGQkA";
-
-  useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
-        return;
-      }
-
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-    })();
-  }, []);
-
   return (
     <View style={styles.container}>
       <View style={styles.title}>
         <Title />
       </View>
       <View style={styles.map}>
-        <MapContainer location={location} apiKey={key} />
+        <MapContainer />
       </View>
       <View style={styles.buttonsContainer}>
         <ButtonsContainer />
