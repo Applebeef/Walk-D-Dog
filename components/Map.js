@@ -18,8 +18,24 @@ const MapContainer = () => {
       }
       let locationRes = await Location.getCurrentPositionAsync({});
       setRegion(convertLocationToRegion(locationRes));
+      getNearbyPlaces(
+        locationRes.coords.latitude,
+        locationRes.coords.longitude,
+        '"Dog Park"'
+      );
     })();
   }, []);
+  
+
+  //Send request to Google Places API to get nearby places
+  const getNearbyPlaces = async (lat, lng, Keyword) => {
+    let url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=5000&type=${Keyword}&key=${key}`;
+    let response = await fetch(url);
+    console.log(url);
+    let responseJson = await response.json();
+    console.log(responseJson);
+    return responseJson;
+  };
 
   const convertLocationToRegion = (location) => {
     return {
