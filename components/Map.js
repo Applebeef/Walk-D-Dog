@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, View, Dimensions, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Dimensions,
+  TouchableOpacity,
+  Image,
+} from "react-native";
 import MapView from "react-native-maps";
 import * as Location from "expo-location";
 
@@ -17,16 +23,16 @@ const MapContainer = () => {
         console.log(errorMsg);
         return;
       }
-      let locationRes = await Location.getCurrentPositionAsync({});
-      setRegion(convertLocationToRegion(locationRes));
+      let locationRes = await Location.getCurrentPositionAsync({}).then(
+        (location) => {
+          convertLocationToRegion(location);
+        }
+      );
+      
 
-      getNearbyPlaces(
-        locationRes.coords.latitude,
-        locationRes.coords.longitude
-      ).then((res) => {
-        setNearbyParks(res.map((park) => createParkMarker(park)));
+      getNearbyPlaces(region.latitude, region.longitude).then((res) => {
+        handleNearbyParksUpdate(res.map((park) => createParkMarker(park)));
       });
-      console.log(nearbyParks)
     })();
   }, []);
 
@@ -39,8 +45,12 @@ const MapContainer = () => {
         }}
         title={park.name}
         key={park.place_id}
-      />
+      ></MapView.Marker>
     );
+  };
+
+  const handleNearbyParksUpdate = (parks) => {
+    setNearbyParks(parks);
   };
 
   //Send request to Google Places API to get nearby places
@@ -48,21 +58,21 @@ const MapContainer = () => {
     lat,
     lng,
     type = '"park"',
-    keyword = '"Dog Park"'
+    keyword = '"dog park"'
   ) => {
-    let url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=5000&type=${type}&keyword=${keyword}&key=${key}`;
+    let url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=2000&type=${type}&keyword=${keyword}&key=${key}`;
     let response = await fetch(url);
     let responseJson = await response.json();
     return responseJson.results;
   };
 
   const convertLocationToRegion = (location) => {
-    return {
+    setRegion({
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
       latitudeDelta: 0.015,
       longitudeDelta: 0.015,
-    };
+    });
   };
 
   return (
@@ -71,6 +81,7 @@ const MapContainer = () => {
         region={region}
         showsUserLocation={true}
         showsPointsOfInterest={false}
+        customMapStyle={mapStyle}
         style={styles.map}
       >
         {nearbyParks}
@@ -92,5 +103,24 @@ const styles = StyleSheet.create({
     height: Dimensions.get("window").height * 0.58,
   },
 });
+
+const mapStyle = [
+  {
+    featureType: "poi",
+    stylers: [
+      {
+        visibility: "off",
+      },
+    ],
+  },
+  {
+    featureType: "poi.park",
+    stylers: [
+      {
+        visibility: "on",
+      },
+    ],
+  },
+];
 
 export default MapContainer;
