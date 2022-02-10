@@ -28,7 +28,6 @@ const MapContainer = () => {
           convertLocationToRegion(location);
         }
       );
-      
 
       getNearbyPlaces(region.latitude, region.longitude).then((res) => {
         handleNearbyParksUpdate(res.map((park) => createParkMarker(park)));
