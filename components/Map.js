@@ -26,12 +26,14 @@ const MapContainer = () => {
       let locationRes = await Location.getCurrentPositionAsync({}).then(
         (location) => {
           convertLocationToRegion(location);
+          getNearbyPlaces(
+            location.coords.latitude,
+            location.coords.longitude
+          ).then((res) => {
+            handleNearbyParksUpdate(res.map((park) => createParkMarker(park)));
+          });
         }
       );
-
-      getNearbyPlaces(region.latitude, region.longitude).then((res) => {
-        handleNearbyParksUpdate(res.map((park) => createParkMarker(park)));
-      });
     })();
   }, []);
 
@@ -44,6 +46,9 @@ const MapContainer = () => {
         }}
         title={park.name}
         key={park.place_id}
+        onPress={() => {
+          alert(park.name);
+        }}
       ></MapView.Marker>
     );
   };
