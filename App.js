@@ -27,10 +27,6 @@ export default function App() {
 
   const [page, setPage] = useState(isLoggedIn ? pages[0] : pages[3]);
 
-  useEffect(() => {
-    console.log(isLoggedIn);
-  }, [isLoggedIn]);
-
   return (
     <View style={styles.container}>
       <View style={styles.title}>
