@@ -5,6 +5,7 @@ import Profile from "./components/Profile";
 import Title from "./components/Title";
 import Chats from "./components/Chats";
 import ButtonsContainer from "./components/Buttons";
+import Login from "./components/Login";
 import { useState, useEffect } from "react";
 import * as Location from "expo-location";
 // import { NavigationContainer } from "@react-navigation/native";
@@ -12,14 +13,17 @@ import * as Location from "expo-location";
 
 // const Stack = createNativeStackNavigator();
 
-let pages = [<MapContainer />, <Profile />, <Chats />];
-
 export default function App() {
-  const [page, setPage] = useState(pages[0]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  let pages = [<MapContainer />, <Profile />, <Chats />];
 
   const changePage = (index) => {
     setPage(pages[index]);
   };
+
+  pages.push(<Login changePageFunction={changePage} />);
+
+  const [page, setPage] = useState(isLoggedIn ? pages[0] : pages[3]);
 
   return (
     <View style={styles.container}>

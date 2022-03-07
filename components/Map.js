@@ -83,6 +83,7 @@ const MapContainer = () => {
     <View style={styles.mapContainer}>
       <MapView
         region={region}
+        provider={"google"}
         showsUserLocation={true}
         showsPointsOfInterest={false}
         customMapStyle={mapStyle}

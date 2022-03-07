@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { LinearGradient } from 'expo-linear-gradient';
+import { LinearGradient } from "expo-linear-gradient";
 
-const ButtonsContainer = ({onPressFunction}) => {
+const ButtonsContainer = ({ onPressFunction }) => {
   return (
     <View style={styles.container}>
       <MenuButton text="Plan trip" id={0} onPressFunction={onPressFunction} />
@@ -16,13 +16,13 @@ function printText(text) {
   alert(text);
 }
 
-const MenuButton = ({text,id,onPressFunction}) => {
+const MenuButton = ({ text, id, onPressFunction }) => {
   const handlePress = () => {
     onPressFunction(id);
   };
 
   return (
-    <LinearGradient colors={['#93bc81','#dcecd5']} style={styles.menuButton}>
+    <LinearGradient colors={["#93bc81", "#dcecd5"]} style={styles.menuButton}>
       <TouchableOpacity onPress={handlePress}>
         <Text style={styles.menuButtonText}>{text}</Text>
       </TouchableOpacity>
