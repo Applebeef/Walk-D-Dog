@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import { useState, useEffect } from "react";
 
-const Login = ({ changePageFunction }) => {
+const Login = ({ changePageFunction, setLoggedIn }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -33,6 +33,7 @@ const Login = ({ changePageFunction }) => {
           setIsLoading(true);
           setTimeout(() => {
             setIsLoading(false);
+            setLoggedIn(true);
             changePageFunction(0);
           }, 2000);
         }}

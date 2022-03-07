@@ -21,9 +21,15 @@ export default function App() {
     setPage(pages[index]);
   };
 
-  pages.push(<Login changePageFunction={changePage} />);
+  pages.push(
+    <Login changePageFunction={changePage} setLoggedIn={setIsLoggedIn} />
+  );
 
   const [page, setPage] = useState(isLoggedIn ? pages[0] : pages[3]);
+
+  useEffect(() => {
+    console.log(isLoggedIn);
+  }, [isLoggedIn]);
 
   return (
     <View style={styles.container}>
