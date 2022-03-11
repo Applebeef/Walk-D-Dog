@@ -6,6 +6,7 @@ import Title from "./components/Title";
 import Chats from "./components/Chats";
 import ButtonsContainer from "./components/Buttons";
 import Login from "./components/Login";
+import Register from "./components/Register";
 import { useState, useEffect } from "react";
 import * as Location from "expo-location";
 // import { NavigationContainer } from "@react-navigation/native";
@@ -24,6 +25,7 @@ export default function App() {
   pages.push(
     <Login changePageFunction={changePage} setLoggedIn={setIsLoggedIn} />
   );
+  pages.push(<Register changePageFunction={changePage} />);
 
   const [page, setPage] = useState(isLoggedIn ? pages[0] : pages[3]);
 

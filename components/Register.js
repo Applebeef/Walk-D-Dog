@@ -7,10 +7,10 @@ import {
 } from "react-native";
 import { useState, useEffect } from "react";
 
-const Login = ({ changePageFunction, setLoggedIn }) => {
+const Register = ({ changePageFunction }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [name, setName] = useState("");
 
   return (
     <View style={styles.container}>
@@ -27,27 +27,17 @@ const Login = ({ changePageFunction, setLoggedIn }) => {
         value={password}
         secureTextEntry={true}
       />
+      <Text style={styles.title}>Name: </Text>
+      <TextInput
+        style={styles.input}
+        onChangeText={(text) => setName(text)}
+        value={name}
+      />
       <TouchableOpacity
         style={styles.button}
         onPress={() => {
-          setIsLoading(true);
-          setTimeout(() => {
-            setIsLoading(false);
-            setLoggedIn(true);
-            changePageFunction(0);
-          }, 2000);
-        }}
-      >
-        {isLoading ? (
-          <Text style={styles.buttonText}>Loading...</Text>
-        ) : (
-          <Text style={styles.buttonText}>Login</Text>
-        )}
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-          changePageFunction(4);
+          changePageFunction(3);
+          //TODO send form to server
         }}
       >
         <Text style={styles.buttonText}>Register</Text>
@@ -93,4 +83,4 @@ styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default Register;
