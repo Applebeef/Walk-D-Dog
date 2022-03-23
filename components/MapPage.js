@@ -7,35 +7,34 @@ import {
   Image,
 } from "react-native";
 import Title from "./Title";
-import ButtonsContainer from "./Buttons";
 import MapContainer from "./MapContainer";
 
 const MapPage = ({ navigation }) => {
   return (
     <View style={styles.container}>
+      <View style={styles.title}>
         <Title />
+      </View>
+      <View style={styles.map}>
         <MapContainer />
-        <ButtonsContainer />
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: "#93C47D",
-      alignContent: "center",
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    title: {
-      position: "absolute",
-      top: 40,
-    },
-    map: {},
-    buttonsContainer: {
-      position: "absolute",
-      bottom: 10,
-    },
-  });
-  
+  container: {
+    flex: 1,
+    backgroundColor: "#93C47D",
+    alignContent: "center",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+  },
+  map: {},
+  buttonsContainer: {
+    position: "absolute",
+    bottom: 10,
+  },
+});
+
+export default MapPage;

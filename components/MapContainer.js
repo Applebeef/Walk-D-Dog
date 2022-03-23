@@ -48,7 +48,6 @@ const MapContainer = ({ navigation }) => {
         key={park.place_id}
         onPress={() => {
           alert(park.name);
-          navigation.navigate("Profile")
         }}
       ></MapView.Marker>
     );

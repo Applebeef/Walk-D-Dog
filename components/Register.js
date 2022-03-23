@@ -6,14 +6,11 @@ import {
   TextInput,
 } from "react-native";
 import { useState, useEffect } from "react";
+import Title from "./Title";
 
-const Register = ({ navigation }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
-
+function Inputs({ setEmail, email, setPassword, password, setName, name }) {
   return (
-    <View style={styles.container}>
+    <View>
       <Text style={styles.title}>E-mail : </Text>
       <TextInput
         style={styles.input}
@@ -33,6 +30,26 @@ const Register = ({ navigation }) => {
         onChangeText={(text) => setName(text)}
         value={name}
       />
+    </View>
+  );
+}
+
+const Register = ({ navigation }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+
+  return (
+    <View style={styles.container}>
+      <Title />
+      <Inputs
+        setEmail={setEmail}
+        email={email}
+        setPassword={setPassword}
+        password={password}
+        setName={setName}
+        name={name}
+      />
       <TouchableOpacity
         style={styles.button}
         onPress={() => {
@@ -50,9 +67,8 @@ styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#93C47D",
-    alignContent: "center",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-around",
   },
   title: {
     fontSize: 20,
@@ -75,6 +91,8 @@ styles = StyleSheet.create({
     height: 40,
     alignItems: "center",
     justifyContent: "center",
+    borderColor: "black",
+    borderWidth: 1,
   },
   buttonText: {
     fontSize: 18,

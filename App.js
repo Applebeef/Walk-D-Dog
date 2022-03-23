@@ -1,6 +1,5 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import MapContainer from "./components/MapContainer";
 import Profile from "./components/Profile";
 import Title from "./components/Title";
 import Chats from "./components/Chats";
@@ -11,16 +10,17 @@ import { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import MapPage from "./components/MapPage";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function LoggedInTabs() {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator style={styles.container}>
       <Tab.Screen
         name="Map"
-        component={MapContainer}
+        component={MapPage}
         options={{
           headerShown: false,
           tabBarLabel: "Map",
@@ -31,8 +31,32 @@ function LoggedInTabs() {
           ),
         }}
       />
-      <Tab.Screen name="Profile" component={Profile} />
-      <Tab.Screen name="Chats" component={Chats} />
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          headerShown: false,
+          tabBarLabel: "Profile",
+          tabBarIcon: ({ color, size }) => (
+            <View>
+              <Title />
+            </View>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Chats"
+        component={Chats}
+        options={{
+          headerShown: false,
+          tabBarLabel: "Profile",
+          tabBarIcon: ({ color, size }) => (
+            <View>
+              <Title />
+            </View>
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 }
@@ -42,7 +66,7 @@ export default function App() {
   const page = loggedIn ? "Home" : "Login";
 
   return (
-    <NavigationContainer>
+    <NavigationContainer style={styles.container}>
       <Stack.Navigator initialRouteName={page}>
         <Stack.Screen
           name="Login"
