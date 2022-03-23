@@ -1,6 +1,5 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import MapContainer from "./components/Map";
 import Profile from "./components/Profile";
 import Title from "./components/Title";
 import Chats from "./components/Chats";
@@ -8,37 +7,90 @@ import ButtonsContainer from "./components/Buttons";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import { useState, useEffect } from "react";
-import * as Location from "expo-location";
-// import { NavigationContainer } from "@react-navigation/native";
-// import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import MapPage from "./components/MapPage";
 
-// const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
+function LoggedInTabs() {
+  return (
+    <Tab.Navigator style={styles.container}>
+      <Tab.Screen
+        name="Map"
+        component={MapPage}
+        options={{
+          headerShown: false,
+          tabBarLabel: "Map",
+          tabBarIcon: ({ color, size }) => (
+            <View>
+              <Title />
+            </View>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          headerShown: false,
+          tabBarLabel: "Profile",
+          tabBarIcon: ({ color, size }) => (
+            <View>
+              <Title />
+            </View>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Chats"
+        component={Chats}
+        options={{
+          headerShown: false,
+          tabBarLabel: "Profile",
+          tabBarIcon: ({ color, size }) => (
+            <View>
+              <Title />
+            </View>
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+}
 
 export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  let pages = [<MapContainer />, <Profile />, <Chats />];
-
-  const changePage = (index) => {
-    setPage(pages[index]);
-  };
-
-  pages.push(
-    <Login changePageFunction={changePage} setLoggedIn={setIsLoggedIn} />
-  );
-  pages.push(<Register changePageFunction={changePage} />);
-
-  const [page, setPage] = useState(isLoggedIn ? pages[0] : pages[3]);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const page = loggedIn ? "Home" : "Login";
 
   return (
-    <View style={styles.container}>
-      <View style={styles.title}>
-        <Title />
-      </View>
-      <View style={styles.map}>{page}</View>
-      <View style={styles.buttonsContainer}>
-        <ButtonsContainer onPressFunction={changePage} />
-      </View>
-    </View>
+    <NavigationContainer style={styles.container}>
+      <Stack.Navigator initialRouteName={page}>
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Register"
+          component={Register}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Home"
+          component={LoggedInTabs}
+          options={{
+            headerShown: false,
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 

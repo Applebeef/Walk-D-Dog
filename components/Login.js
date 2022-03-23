@@ -6,14 +6,50 @@ import {
   TextInput,
 } from "react-native";
 import { useState, useEffect } from "react";
+import Title from "./Title";
 
-const Login = ({ changePageFunction, setLoggedIn }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+function Buttons({ navigation }) {
   const [isLoading, setIsLoading] = useState(false);
-
   return (
-    <View style={styles.container}>
+    <View>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => {
+          setIsLoading(true);
+          setTimeout(() => {
+            setIsLoading(false); // setLoggedIn(true);
+            navigation.reset({
+              index: 0,
+              routes: [
+                {
+                  name: "Home",
+                },
+              ],
+            });
+          }, 2000);
+        }}
+      >
+        {isLoading ? (
+          <Text style={styles.buttonText}>Loading...</Text>
+        ) : (
+          <Text style={styles.buttonText}>Login</Text>
+        )}
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => {
+          navigation.navigate("Register");
+        }}
+      >
+        <Text style={styles.buttonText}>Register</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+function Inputs({ setEmail, email, setPassword, password }) {
+  return (
+    <View>
       <Text style={styles.title}>E-mail : </Text>
       <TextInput
         style={styles.input}
@@ -27,31 +63,25 @@ const Login = ({ changePageFunction, setLoggedIn }) => {
         value={password}
         secureTextEntry={true}
       />
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-          setIsLoading(true);
-          setTimeout(() => {
-            setIsLoading(false);
-            setLoggedIn(true);
-            changePageFunction(0);
-          }, 2000);
-        }}
-      >
-        {isLoading ? (
-          <Text style={styles.buttonText}>Loading...</Text>
-        ) : (
-          <Text style={styles.buttonText}>Login</Text>
-        )}
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-          changePageFunction(4);
-        }}
-      >
-        <Text style={styles.buttonText}>Register</Text>
-      </TouchableOpacity>
+    </View>
+  );
+}
+
+const Login = ({ navigation }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  return (
+    <View style={styles.container}>
+      <Title />
+      <Inputs
+        setEmail={setEmail}
+        email={email}
+        setPassword={setPassword}
+        password={password}
+      />
+      <Buttons navigation={navigation} />
     </View>
   );
 };
@@ -60,9 +90,8 @@ styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#93C47D",
-    alignContent: "center",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-around",
   },
   title: {
     fontSize: 20,
@@ -85,6 +114,9 @@ styles = StyleSheet.create({
     height: 40,
     alignItems: "center",
     justifyContent: "center",
+    marginBottom: 5,
+    borderColor: "black",
+    borderWidth: 1,
   },
   buttonText: {
     fontSize: 18,
