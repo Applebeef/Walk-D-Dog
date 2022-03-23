@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import { useState, useEffect } from "react";
 
-const Login = ({ changePageFunction, setLoggedIn }) => {
+const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -33,8 +33,8 @@ const Login = ({ changePageFunction, setLoggedIn }) => {
           setIsLoading(true);
           setTimeout(() => {
             setIsLoading(false);
-            setLoggedIn(true);
-            changePageFunction(0);
+            // setLoggedIn(true);
+            navigation.navigate("Home");
           }, 2000);
         }}
       >
@@ -47,7 +47,7 @@ const Login = ({ changePageFunction, setLoggedIn }) => {
       <TouchableOpacity
         style={styles.button}
         onPress={() => {
-          changePageFunction(4);
+          navigation.navigate("Register");
         }}
       >
         <Text style={styles.buttonText}>Register</Text>

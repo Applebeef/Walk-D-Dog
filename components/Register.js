@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import { useState, useEffect } from "react";
 
-const Register = ({ changePageFunction }) => {
+const Register = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -36,8 +36,8 @@ const Register = ({ changePageFunction }) => {
       <TouchableOpacity
         style={styles.button}
         onPress={() => {
-          changePageFunction(3);
           //TODO send form to server
+          navigation.navigate("Login");
         }}
       >
         <Text style={styles.buttonText}>Register</Text>
