@@ -11,35 +11,28 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MapPage from "./components/MapPage";
+import MapLogo from "./components/MapLogo";
+import ProfileLogo from "./components/ProfileLogo";
+import ChatLogo from "./components/ChatLogo";
+import SignInScreen from "./components/SigninScreen";
+
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function LoggedInTabs() {
   return (
-    <Tab.Navigator style={styles.container}>
-      <Tab.Screen
-        name="Map"
-        component={MapPage}
-        options={{
-          headerShown: false,
-          tabBarLabel: "Map",
-          tabBarIcon: ({ color, size }) => (
-            <View>
-              <Title />
-            </View>
-          ),
-        }}
-      />
-      <Tab.Screen
+    <Tab.Navigator style={styles.container} >
+    
+      <Tab.Screen 
         name="Profile"
         component={Profile}
         options={{
           headerShown: false,
-          tabBarLabel: "Profile",
+          tabBarLabel: "",
           tabBarIcon: ({ color, size }) => (
             <View>
-              <Title />
+              <ProfileLogo/>
             </View>
           ),
         }}
@@ -49,14 +42,28 @@ function LoggedInTabs() {
         component={Chats}
         options={{
           headerShown: false,
-          tabBarLabel: "Profile",
+          tabBarLabel: "",
           tabBarIcon: ({ color, size }) => (
             <View>
-              <Title />
+              <ChatLogo/>
             </View>
           ),
         }}
       />
+        <Tab.Screen
+        name="Map"
+        component={MapPage}
+        options={{
+          headerShown: false,
+          tabBarLabel: "",
+          tabBarIcon: ({ color, size }) => (
+            <View>
+              <MapLogo/>
+            </View>
+          ),
+        }}
+      />
+      
     </Tab.Navigator>
   );
 }
@@ -97,14 +104,16 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#93C47D",
+    backgroundColor: "#FAFAFA",
     alignContent: "center",
     alignItems: "center",
     justifyContent: "center",
+    
+    
   },
   title: {
     position: "absolute",
-    top: 40,
+    top: 20,
   },
   map: {},
   buttonsContainer: {

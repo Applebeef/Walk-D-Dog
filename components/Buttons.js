@@ -7,6 +7,7 @@ const ButtonsContainer = ({ onPressFunction }) => {
       <MenuButton text="Start trip" id={0} onPressFunction={onPressFunction} />
       <MenuButton text="My profile" id={1} onPressFunction={onPressFunction} />
       <MenuButton text="Chats" id={2} onPressFunction={onPressFunction} />
+      
     </View>
   );
 };

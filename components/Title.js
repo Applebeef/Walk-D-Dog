@@ -13,13 +13,14 @@ const Title = () => {
 
 const styles = StyleSheet.create({
   titleContainer: {
-    borderRadius: 60,
+    borderRadius: 80,
     borderWidth: 5,
     alignItems: "center",
   },
   logo: {
-    width: 100,
-    height: 100,
+    width: 150,
+    height: 150,
+
   },
 });
 

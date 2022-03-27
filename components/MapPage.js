@@ -25,7 +25,7 @@ const MapPage = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#93C47D",
+    backgroundColor: "#fafafa",
     alignContent: "center",
     alignItems: "center",
     justifyContent: "space-evenly",

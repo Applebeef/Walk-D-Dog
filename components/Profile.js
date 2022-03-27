@@ -19,7 +19,7 @@ function Profile() {
 styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#93C47D",
+    backgroundColor: "#fafafa",
     alignItems: "center",
     justifyContent: "space-around",
   },

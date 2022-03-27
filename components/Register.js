@@ -66,7 +66,7 @@ const Register = ({ navigation }) => {
 styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#93C47D",
+    backgroundColor: "#fafafa",
     alignItems: "center",
     justifyContent: "space-around",
   },
@@ -85,7 +85,7 @@ styles = StyleSheet.create({
     borderRadius: 10,
   },
   button: {
-    backgroundColor: "#7fc360",
+    backgroundColor: "#fafafa",
     borderRadius: 10,
     width: 200,
     height: 40,
