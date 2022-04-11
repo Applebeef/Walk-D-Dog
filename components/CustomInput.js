@@ -20,7 +20,8 @@ container: {
 
 backgroundColor:'white',
 width: '100%',
-height:'5%',
+height:'7%',
+textAlign: 'center' ,
 borderColor: '#e8e8e8',
 borderWidth: 1,
 borderRadius: 5,

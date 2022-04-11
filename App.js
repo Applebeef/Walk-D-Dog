@@ -15,7 +15,7 @@ import MapLogo from "./components/MapLogo";
 import ProfileLogo from "./components/ProfileLogo";
 import ChatLogo from "./components/ChatLogo";
 import SignInScreen from "./components/SigninScreen";
-
+import SignUpScreen from "./components/SignUpScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -77,7 +77,7 @@ export default function App() {
       <Stack.Navigator initialRouteName={page}>
         <Stack.Screen
           name="Login"
-          component={Login}
+          component={SignUpScreen}
           options={{
             headerShown: false,
           }}

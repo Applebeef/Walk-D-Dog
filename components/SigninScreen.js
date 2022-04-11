@@ -75,7 +75,7 @@ return (
   text="Don't have an account? Create one"
   onPress={onSignUpPress}
   type="TERTIARY"
-  fgColor='gray'
+  fgColor='#e4e4e4'
   bgColor='#afafaf'
   />
   </View>
