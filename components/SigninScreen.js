@@ -1,36 +1,41 @@
-
-import React, {useState} from 'react';
-import {View, Text, Image, StyleSheet, useWindowDimensions,ScrollView} from 'react-native';
-import CustomInput from './CustomInput';
-import CustomButton from './CustomButton';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  useWindowDimensions,
+  ScrollView,
+} from "react-native";
+import CustomInput from "./CustomInput";
+import CustomButton from "./CustomButton";
 
 const SignInScreen = () => {
-const[username,setUsername]= useState("");
-const[password,setPassword]= useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-const {height} = useWindowDimensions ();
-const onSignInPressed = () => {
-    console.warn("");
-} ;   
-const onForgotPasswordPressed =() => {
-    console.warn('onForgotPasswordPressed');
-   }; 
+  const { height } = useWindowDimensions();
+  const onSignInPressed = () => {
+    console.warn("Oningin");
+  };
+  const onForgotPasswordPressed = () => {
+    console.warn("onForgotPasswordPressed");
+  };
 
-   const onSignInFacebook = () => {
-    console.warn('onSignInFacebook');
+  const onSignInFacebook = () => {
+    console.warn("onSignInFacebook");
   };
   const onSignInGoogle = () => {
-    console.warn('onSignInGoogle');
+    console.warn("onSignInGoogle");
   };
-  const onSignInApple = () =>{
-    console.warn('onSignInApple');
+  const onSignInApple = () => {
+    console.warn("onSignInApple");
   };
-  const onSignUpPress = () =>{
-    console.warn('onSignUpPress');
+  const onSignUpPress = () => {
+    console.warn("onSignUpPress");
   };
 
-
-return (
+  return (
     <ScrollView>
     <View style={styles.root}>
       <Image source={require("../assets/WalkDDog-Logo.png")} style={[styles.logo, {height: height * 0.3}]} resizeMode="contain" />
@@ -83,18 +88,18 @@ return (
     );
 };
 
-const styles=StyleSheet.create({  
-root: {
-    flex:1,
-alignItems: 'center',
-justifyContent:'space-around',
-padding: 50
-},
-logo: {
-width: '70%',
-maxWidth: 300,
-maxHeight: 100,
-padding:80,
-},
+const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "space-around",
+    padding: 50,
+  },
+  logo: {
+    width: "70%",
+    maxWidth: 300,
+    maxHeight: 100,
+    padding: 80,
+  },
 });
 export default SignInScreen;
