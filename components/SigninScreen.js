@@ -10,7 +10,7 @@ const[password,setPassword]= useState("");
 
 const {height} = useWindowDimensions ();
 const onSignInPressed = () => {
-    console.warn("Oningin");
+    console.warn("");
 } ;   
 const onForgotPasswordPressed =() => {
     console.warn('onForgotPasswordPressed');
@@ -35,7 +35,7 @@ return (
     <View style={styles.root}>
       <Image source={require("../assets/WalkDDog-Logo.png")} style={[styles.logo, {height: height * 0.3}]} resizeMode="contain" />
       <CustomInput
-    placeholder="Username"
+    placeholder="User name"
     value={username}
     setValue={setUsername}
     />
