@@ -22,9 +22,8 @@ const Tab = createBottomTabNavigator();
 
 function LoggedInTabs() {
   return (
-    <Tab.Navigator style={styles.container} >
-    
-      <Tab.Screen 
+    <Tab.Navigator style={styles.container}>
+      <Tab.Screen
         name="Profile"
         component={Profile}
         options={{
@@ -32,7 +31,7 @@ function LoggedInTabs() {
           tabBarLabel: "",
           tabBarIcon: ({ color, size }) => (
             <View>
-              <ProfileLogo/>
+              <ProfileLogo />
             </View>
           ),
         }}
@@ -45,12 +44,12 @@ function LoggedInTabs() {
           tabBarLabel: "",
           tabBarIcon: ({ color, size }) => (
             <View>
-              <ChatLogo/>
+              <ChatLogo />
             </View>
           ),
         }}
       />
-        <Tab.Screen
+      <Tab.Screen
         name="Map"
         component={MapPage}
         options={{
@@ -58,12 +57,11 @@ function LoggedInTabs() {
           tabBarLabel: "",
           tabBarIcon: ({ color, size }) => (
             <View>
-              <MapLogo/>
+              <MapLogo />
             </View>
           ),
         }}
       />
-      
     </Tab.Navigator>
   );
 }
@@ -83,8 +81,8 @@ export default function App() {
           }}
         />
         <Stack.Screen
-          name="Register"
-          component={Register}
+          name="SignUp"
+          component={SignUpScreen}
           options={{
             headerShown: false,
           }}
@@ -108,8 +106,6 @@ const styles = StyleSheet.create({
     alignContent: "center",
     alignItems: "center",
     justifyContent: "center",
-    
-    
   },
   title: {
     position: "absolute",

@@ -1,6 +1,6 @@
 const serverUtils = {
   constants: {
-    url: "vmeduvmedu249.mtacloud.co.il",
+    url: "vmedu249.mtacloud.co.il",
     port: "8080",
   },
 
