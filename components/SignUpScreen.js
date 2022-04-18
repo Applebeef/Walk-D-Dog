@@ -78,7 +78,7 @@ const SignUpScreen = ({ navigation }) => {
   };
 
   const onSignInPress = () => {
-    console.warn("onSignInPress");
+    navigation.navigate("Login");
   };
 
   return (
