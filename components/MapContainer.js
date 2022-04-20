@@ -9,7 +9,7 @@ import {
 import MapView from "react-native-maps";
 import * as Location from "expo-location";
 
-const MapContainer = ({ navigation }) => {
+const MapContainer = ({parkNavigate}) => {
   const [region, setRegion] = useState(null);
   const [nearbyParks, setNearbyParks] = useState([]);
   const [errorMsg, setErrorMsg] = useState(null);
@@ -47,7 +47,7 @@ const MapContainer = ({ navigation }) => {
         title={park.name}
         key={park.place_id}
         onPress={() => {
-          alert(park.name);
+          parkNavigate(park.place_id, park.name);
         }}
       ></MapView.Marker>
     );
