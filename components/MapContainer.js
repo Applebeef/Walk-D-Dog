@@ -9,7 +9,21 @@ import {
 import MapView from "react-native-maps";
 import * as Location from "expo-location";
 
-const MapContainer = ({parkNavigate}) => {
+function distance(lon1, lat1, lon2, lat2) {
+  var R = 6371; // Radius of earth in kilometers.
+  var dLat = ((lat2 - lat1) * Math.PI) / 180;
+  var dLon = ((lon2 - lon1) * Math.PI) / 180;
+  var a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
+const MapContainer = ({ parkNavigate }) => {
   const [region, setRegion] = useState(null);
   const [nearbyParks, setNearbyParks] = useState([]);
   const [errorMsg, setErrorMsg] = useState(null);
@@ -30,7 +44,20 @@ const MapContainer = ({parkNavigate}) => {
             location.coords.latitude,
             location.coords.longitude
           ).then((res) => {
-            handleNearbyParksUpdate(res.map((park) => createParkMarker(park)));
+            handleNearbyParksUpdate(
+              res.map((park) => {
+                console.log(park.name);
+                console.log(
+                  distance(
+                    park.geometry.location.lng,
+                    park.geometry.location.lat,
+                    location.coords.longitude,
+                    location.coords.latitude
+                  ) * 1000
+                );
+                return createParkMarker(park);
+              })
+            );
           });
         }
       );

@@ -23,7 +23,7 @@ const ParkPage = ({ route, navigation }) => {
     fetchPark(route.params.id).then((visitors) => {
       let visitorDisplayArray = [];
       for(let name in visitors){
-        let visitorDisplay = <VisitorDisplay visitor_name={name} dog_names={visitors[name]} />
+        let visitorDisplay = <VisitorDisplay key={name} visitor_name={name} dog_names={visitors[name]} />
         visitorDisplayArray.push(visitorDisplay);
       }
       setParkVisitors(visitorDisplayArray);
