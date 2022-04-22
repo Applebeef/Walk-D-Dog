@@ -16,7 +16,7 @@ import ProfileLogo from "./components/ProfileLogo";
 import ChatLogo from "./components/ChatLogo";
 import SignInScreen from "./components/SigninScreen";
 import SignUpScreen from "./components/SignUpScreen";
-
+import DogSignUp from "./components/DogSignup";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -72,7 +72,15 @@ export default function App() {
 
   return (
     <NavigationContainer style={styles.container}>
-      <Stack.Navigator initialRouteName={page}>
+      <Stack.Navigator initialRouteName={"DogSignup"}>
+      
+          <Stack.Screen
+          name="DogSignup"
+          component={DogSignUp}
+          options={{
+            headerShown: false,
+          }}
+          />
         <Stack.Screen
           name="Login"
           component={SignInScreen}
@@ -86,7 +94,7 @@ export default function App() {
           options={{
             headerShown: false,
           }}
-        />
+          />
         <Stack.Screen
           name="Home"
           component={LoggedInTabs}
