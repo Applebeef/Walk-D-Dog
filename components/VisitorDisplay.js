@@ -1,13 +1,6 @@
 import { Text, View, StyleSheet } from "react-native";
 import React from "react";
-
-const DogDisplay = ({ dog_name }) => {
-  return (
-    <View>
-      <Text style={styles.dogDisplay}>{dog_name}</Text>
-    </View>
-  );
-};
+import { DogDisplay } from "./DogDisplay";
 
 const VisitorDisplay = ({ visitor_name, dog_names }) => {
   let dogDisplayArray = dog_names.map((dog_name) => (
