@@ -2,6 +2,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
 import Title from "./Title";
 import DogDisplay from "./DogDisplay";
+import CustomButton from "./CustomButton";
 
 function Profile({ username }) {
   const [firstName, setFirstName] = useState("");
@@ -35,8 +36,10 @@ function Profile({ username }) {
   return (
     <View style={styles.container}>
       <Title />
+      <Text>{username}</Text>
       <Text>{firstName} {lastName}</Text>
       <Text>{email}</Text>
+      <CustomButton onPress={} text={"Change password"} />
       <View style={styles.dog_container}>{dogs}</View>
     </View>
   );
@@ -56,5 +59,7 @@ styles = StyleSheet.create({
     width: "90%",
   },
 });
+
+
 
 export default Profile;
