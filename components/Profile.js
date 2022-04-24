@@ -39,7 +39,7 @@ function Profile({ username }) {
       <Text>{username}</Text>
       <Text>{firstName} {lastName}</Text>
       <Text>{email}</Text>
-      <CustomButton onPress={} text={"Change password"} />
+      <CustomButton onPress={navigator.navigate("ChangePassword")} text={"Change password"} />
       <View style={styles.dog_container}>{dogs}</View>
     </View>
   );
