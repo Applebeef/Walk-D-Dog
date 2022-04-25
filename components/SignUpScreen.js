@@ -47,6 +47,7 @@ const SignUpScreen = ({ navigation }) => {
   const [passwordRepeat, setPasswordRepeat] = useState("");
   const [first_name, setFirst_name] = useState("");
   const [last_name, setLast_name] = useState("");
+  const [dogs, setDogs] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
 
   const onRegisterPressed = () => {
@@ -92,6 +93,19 @@ const SignUpScreen = ({ navigation }) => {
     navigation.navigate("Login");
   };
 
+  const dogsAppend = (dog) => {
+    setDogs([...dogs, dog]);
+  };
+
+  const onAddDogPressed = () => {
+    navigation.navigate("DogSignup", {
+      dogsAppend: (dog) => {
+        dogsAppend(dog);
+        console.log(dogs);
+      },
+    });
+  };
+
   return (
     <ScrollView>
       <View style={styles.root}>
@@ -126,6 +140,12 @@ const SignUpScreen = ({ navigation }) => {
           secureTextEntry
         />
         <Text>{errorMessage}</Text>
+        <CustomButton
+          text="Add Dog +"
+          onPress={onAddDogPressed}
+          bgColor="#efefef"
+          fgColor="black"
+        />
         <CustomButton
           text="Register"
           onPress={onRegisterPressed}

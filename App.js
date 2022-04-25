@@ -102,18 +102,17 @@ export default function App() {
 
   return (
     <NavigationContainer style={styles.container}>
-      <Stack.Navigator initialRouteName={"DogSignup"}>
-      
-          <Stack.Screen
-          name="DogSignup"
-          component={DogSignUp}
-          options={{
-            headerShown: false,
-          }}
-          />
+      <Stack.Navigator initialRouteName="Login">
         <Stack.Screen
           name="Login"
           component={SignInScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="DogSignup"
+          component={DogSignUp}
           options={{
             headerShown: false,
           }}
@@ -124,7 +123,7 @@ export default function App() {
           options={{
             headerShown: false,
           }}
-          />
+        />
         <Stack.Screen
           name="Home"
           component={LoggedInTabs}

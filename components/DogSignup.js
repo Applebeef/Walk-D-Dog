@@ -15,26 +15,34 @@ import CustomButton from "./CustomButton";
 import SocialSignInButtons from "./SocialSignInButtons";
 import serverUtils from "./serverUtils";
 import RadioButton from "./RadioButton";
-const PROP = [
-	{
-		key: 'Male',
-		text: 'Male',
-	},
-	{
-		key: 'Female',
-		text: 'Female',
-	},
-];
-const onSignInPressed = () => {
-  
-console.warn("ADD Dog ")
-};
 
-const DogSignUp = () => {
+class Dog {
+  constructor(name, age, gender) {
+    this.name = name;
+    this.age = age;
+    this.gender = gender;
+  }
+}
+
+const PROP = [
+  {
+    key: "Male",
+    text: "Male",
+  },
+  {
+    key: "Female",
+    text: "Female",
+  },
+];
+
+const DogSignUp = ({ route, navigation }) => {
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
-  
 
+  const onAddDogPressed = () => {
+    route.params.dogsAppend(new Dog(name, age));
+    navigation.goBack();
+  };
 
   return (
     <ScrollView>
@@ -46,29 +54,33 @@ const DogSignUp = () => {
             width: 100,
             height: 100,
             borderRadius: 100 / 2,
-            borderWidth:1,
+            borderWidth: 1,
             borderColor: "black",
-            alignItems: 'center',
-            alignSelf:"center",
-            
+            alignItems: "center",
+            alignSelf: "center",
           }}
         />
-     <TextInput  style={styles.input} value={name} onChangeText={setName}  placeholder="Dog Name"/>
-     <TextInput 
-      style={styles.input}
-          placeholder="Age?"
-          keyboardType='numeric'
+        <TextInput
+          style={styles.input}
+          value={name}
+          onChangeText={setName}
+          placeholder="Dog Name"
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Age"
+          keyboardType="numeric"
           value={age}
           onChangeText={setAge}
-          maxLength={2} 
-/>  
-          
-      
-        <RadioButton PROP={PROP} />
-      <CustomButton  text="Sign In"
-          onPress={onSignInPressed}
-          bgColor="#3871F3"/>
+          maxLength={2}
+        />
 
+        <RadioButton PROP={PROP} />
+        <CustomButton
+          text="Add Dog"
+          onPress={() => onAddDogPressed()}
+          bgColor="#3871F3"
+        />
       </View>
     </ScrollView>
   );
@@ -76,24 +88,23 @@ const DogSignUp = () => {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    alignSelf:"center",
+    alignSelf: "center",
     justifyContent: "center",
     padding: 60,
   },
   title: {
-    alignSelf:"center",
-    paddingBottom:25,
+    alignSelf: "center",
+    paddingBottom: 25,
     fontSize: 25,
     fontWeight: "bold",
     color: "#051c60",
     margin: 10,
   },
   input: {
-    
-    paddingBottom:15,
-    fontSize:25,
-    color:"black",
-    alignSelf:"flex-end",
+    paddingBottom: 15,
+    fontSize: 25,
+    color: "black",
+    alignSelf: "flex-end",
     borderColor: "#e8e8e8",
 
     borderRadius: 5,
