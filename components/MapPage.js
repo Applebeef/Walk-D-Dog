@@ -10,13 +10,20 @@ import Title from "./Title";
 import MapContainer from "./MapContainer";
 
 const MapPage = ({ navigation }) => {
+  function navigateToPark(id, name) {
+    navigation.navigate("ParkPage", {
+      id: id,
+      name: name,
+    });
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.title}>
         <Title />
       </View>
       <View style={styles.map}>
-        <MapContainer />
+        <MapContainer parkNavigate={navigateToPark} />
       </View>
     </View>
   );

@@ -1,16 +1,13 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Profile from "./components/Profile";
-import Title from "./components/Title";
 import Chats from "./components/Chats";
-import ButtonsContainer from "./components/Buttons";
-import Login from "./components/Login";
-import Register from "./components/Register";
 import { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MapPage from "./components/MapPage";
+import ParkPage from "./components/ParkPage";
 import MapLogo from "./components/MapLogo";
 import ProfileLogo from "./components/ProfileLogo";
 import ChatLogo from "./components/ChatLogo";
@@ -19,6 +16,39 @@ import SignUpScreen from "./components/SignUpScreen";
 import DogSignUp from "./components/DogSignup";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+
+function MapStack() {
+  return (
+    <Stack.Navigator initialRouteName="Map">
+      <Stack.Screen
+        name="MapPage"
+        component={MapPage}
+        options={{
+          headerShown: false,
+          tabBarLabel: "",
+          tabBarIcon: ({ color, size }) => (
+            <View>
+              <MapLogo />
+            </View>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="ParkPage"
+        component={ParkPage}
+        options={{
+          headerShown: false,
+          tabBarLabel: "",
+          tabBarIcon: ({ color, size }) => (
+            <View>
+              <MapLogo />
+            </View>
+          ),
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
 
 function LoggedInTabs() {
   return (
@@ -51,7 +81,7 @@ function LoggedInTabs() {
       />
       <Tab.Screen
         name="Map"
-        component={MapPage}
+        component={MapStack}
         options={{
           headerShown: false,
           tabBarLabel: "",
