@@ -25,25 +25,16 @@ const PROP = [
 		text: 'Female',
 	},
 ];
-
-function onChanged(text){
-  let newText = '';
-  let numbers = '0123456789';
-
-  for (var i=0; i < text.length; i++) {
-      if(numbers.indexOf(text[i]) > -1 ) {
-          newText = newText + text[i];
-      }
-      else {
-          // your call back function
-          alert("please enter numbers only");
-      }
-  }
-  this.setState({ myNumber: newText });
-}
+const onSignInPressed = () => {
+  
+console.warn("ADD Dog ")
+};
 
 const DogSignUp = () => {
+  const [name, setName] = useState("");
+  const [age, setAge] = useState("");
   
+
 
   return (
     <ScrollView>
@@ -55,26 +46,28 @@ const DogSignUp = () => {
             width: 100,
             height: 100,
             borderRadius: 100 / 2,
+            borderWidth:1,
             borderColor: "black",
-            alignItems: 'flex-end'
+            alignItems: 'center',
+            alignSelf:"center",
+            
           }}
         />
-        <Text style={styles.text}>
-        
-          Dog Name:
-          <CustomInput placeholder="Dog Name"/>
-
-        </Text>
-          
-        <Text style={styles.text}>
-          Dog Age:{' '} 
-          <TextInput 
+     <TextInput  style={styles.input} value={name} onChangeText={setName}  placeholder="Dog Name"/>
+     <TextInput 
+      style={styles.input}
+          placeholder="Age?"
           keyboardType='numeric'
-          onChangeText={(text)=> this.onChanged(text)}
-          maxLength={10} 
-/>
-        </Text>
+          value={age}
+          onChangeText={setAge}
+          maxLength={2} 
+/>  
+          
+      
         <RadioButton PROP={PROP} />
+      <CustomButton  text="Sign In"
+          onPress={onSignInPressed}
+          bgColor="#3871F3"/>
 
       </View>
     </ScrollView>
@@ -83,18 +76,21 @@ const DogSignUp = () => {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    
+    alignSelf:"center",
     justifyContent: "center",
-    padding: 50,
+    padding: 60,
   },
   title: {
     alignSelf:"center",
+    paddingBottom:25,
     fontSize: 25,
     fontWeight: "bold",
     color: "#051c60",
     margin: 10,
   },
-  text: {
+  input: {
+    
+    paddingBottom:15,
     fontSize:25,
     color:"black",
     alignSelf:"flex-end",
