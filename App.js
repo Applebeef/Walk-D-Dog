@@ -50,6 +50,39 @@ function MapStack() {
   );
 }
 
+function ProfileStack() {
+  return (
+    <Stack.Navigator initialRouteName="Profile">
+      <Stack.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          headerShown: false,
+          tabBarLabel: "",
+          tabBarIcon: ({ color, size }) => (
+            <View>
+              <ProfileLogo />
+            </View>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="ChangePassword"
+        component={ChangePassword}
+        options={{
+          headerShown: false,
+          tabBarLabel: "",
+          tabBarIcon: ({ color, size }) => (
+            <View>
+              <ProfileLogo />
+            </View>
+          ),
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
 function LoggedInTabs() {
   return (
     <Tab.Navigator style={styles.container}>
