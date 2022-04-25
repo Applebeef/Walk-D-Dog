@@ -20,7 +20,7 @@ class Dog {
   constructor(name, age, gender) {
     this.name = name;
     this.age = age;
-    this.gender = gender;
+    this.gender = gender ? gender : "";
   }
 }
 
@@ -40,7 +40,7 @@ const DogSignUp = ({ route, navigation }) => {
   const [age, setAge] = useState("");
 
   const onAddDogPressed = () => {
-    route.params.dogsAppend(new Dog(name, age));
+    route.params.dogsAppend(new Dog(name, age));//TODO: send gender to function
     navigation.goBack();
   };
 

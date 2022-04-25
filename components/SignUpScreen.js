@@ -11,8 +11,16 @@ import CustomInput from "./CustomInput";
 import CustomButton from "./CustomButton";
 import SocialSignInButtons from "./SocialSignInButtons";
 import serverUtils from "./serverUtils";
+import DogDisplay from "./DogDisplay";
 
-function sendRegisterRequest(email, password, username, first_name, last_name) {
+function sendRegisterRequest(
+  email,
+  password,
+  username,
+  first_name,
+  last_name,
+  dogs
+) {
   return fetch(
     `http://${serverUtils.constants.url}:${serverUtils.constants.port}/user/register`,
     {
@@ -27,6 +35,7 @@ function sendRegisterRequest(email, password, username, first_name, last_name) {
         username: username,
         first_name: first_name,
         last_name: last_name,
+        dogs: dogs,
       }),
     }
   );
@@ -65,7 +74,8 @@ const SignUpScreen = ({ navigation }) => {
       password,
       username,
       first_name,
-      last_name
+      last_name,
+      dogs
     );
     response.then((res) => {
       res.json().then((data) => {
@@ -94,14 +104,13 @@ const SignUpScreen = ({ navigation }) => {
   };
 
   const dogsAppend = (dog) => {
-    setDogs([...dogs, dog]);
+    setDogs([...dogs, dog])
   };
 
   const onAddDogPressed = () => {
     navigation.navigate("DogSignup", {
       dogsAppend: (dog) => {
         dogsAppend(dog);
-        console.log(dogs);
       },
     });
   };
@@ -146,6 +155,11 @@ const SignUpScreen = ({ navigation }) => {
           bgColor="#efefef"
           fgColor="black"
         />
+        <View style={styles.dog_container}>
+          {dogs.map((dog,index) => (
+            <DogDisplay key={index} dog_name={dog.name} />
+          ))}
+        </View>
         <CustomButton
           text="Register"
           onPress={onRegisterPressed}
@@ -189,6 +203,11 @@ const styles = StyleSheet.create({
   },
   link: {
     color: "#FDB075",
+  },
+  dog_container: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
   },
 });
 export default SignUpScreen;
