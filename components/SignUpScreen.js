@@ -35,10 +35,20 @@ function sendRegisterRequest(
         username: username,
         first_name: first_name,
         last_name: last_name,
-        dogs: dogs,
+        dogs: dogs.map((dog) => {
+          return {
+            name: dog.name,
+            age: dog.age,
+            gender: dog.gender,
+          };
+        }),
       }),
     }
   );
+}
+
+function sendImagesRequest(image_uris){
+  
 }
 
 const validateEmail = (email) => {
@@ -78,6 +88,7 @@ const SignUpScreen = ({ navigation }) => {
       dogs
     );
     response.then((res) => {
+      sendImagesRequest(dogs.map((dog) => dog.image));
       res.json().then((data) => {
         if (data) {
           navigation.navigate("Login");
