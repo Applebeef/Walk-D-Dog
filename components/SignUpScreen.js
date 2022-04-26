@@ -104,7 +104,7 @@ const SignUpScreen = ({ navigation }) => {
   };
 
   const dogsAppend = (dog) => {
-    setDogs([...dogs, dog])
+    setDogs([...dogs, dog]);
   };
 
   const onAddDogPressed = () => {
@@ -156,9 +156,16 @@ const SignUpScreen = ({ navigation }) => {
           fgColor="black"
         />
         <View style={styles.dog_container}>
-          {dogs.map((dog,index) => (
-            <DogDisplay key={index} dog_name={dog.name} />
-          ))}
+          {dogs.map((dog, index) => {
+            console.log(dogs);
+            return (
+              <DogDisplay
+                key={index}
+                dog_name={dog.name}
+                dog_image={dog.image}
+              />
+            );
+          })}
         </View>
         <CustomButton
           text="Register"

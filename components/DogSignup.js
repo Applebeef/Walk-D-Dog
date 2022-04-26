@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -15,12 +15,14 @@ import CustomButton from "./CustomButton";
 import SocialSignInButtons from "./SocialSignInButtons";
 import serverUtils from "./serverUtils";
 import RadioButton from "./RadioButton";
+import * as ImagePicker from "expo-image-picker";
 
 class Dog {
-  constructor(name, age, gender) {
+  constructor(name, age, image, gender) {
     this.name = name;
     this.age = age;
     this.gender = gender ? gender : "";
+    this.image = image;
   }
 }
 
@@ -38,9 +40,10 @@ const PROP = [
 const DogSignUp = ({ route, navigation }) => {
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
+  const [image, setImage] = useState();
 
   const onAddDogPressed = () => {
-    route.params.dogsAppend(new Dog(name, age));//TODO: send gender to function
+    route.params.dogsAppend(new Dog(name, age, image)); //TODO: send gender to function
     navigation.goBack();
   };
 
@@ -76,6 +79,39 @@ const DogSignUp = ({ route, navigation }) => {
         />
 
         <RadioButton PROP={PROP} />
+        <View>
+          <Image source={{ uri: image }} style={{ width: 200, height: 150 }} />
+          <View style={styles.pictureButtonsContainer}>
+            <CustomButton
+              text="Take a picture"
+              onPress={async () => {
+                let result = await ImagePicker.launchCameraAsync({
+                  allowsEditing: true,
+                  aspect: [4, 3],
+                });
+                if (!result.cancelled) {
+                  setImage(result.uri);
+                }
+              }}
+              bgColor="#E91E63"
+              textColor="white"
+            />
+            <CustomButton
+              text="Choose from gallery"
+              onPress={async () => {
+                let result = await ImagePicker.launchImageLibraryAsync({
+                  allowsEditing: true,
+                  aspect: [4, 3],
+                });
+                if (!result.cancelled) {
+                  setImage(result.uri);
+                }
+              }}
+              bgColor="#E91E63"
+              textColor="white"
+            />
+          </View>
+        </View>
         <CustomButton
           text="Add Dog"
           onPress={() => onAddDogPressed()}
