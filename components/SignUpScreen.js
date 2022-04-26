@@ -47,8 +47,20 @@ function sendRegisterRequest(
   );
 }
 
-function sendImagesRequest(image_uris){
-  
+function sendImagesRequest(image_uris) {
+  Promise.all(
+    image_uris.map((uri) => {
+      form = new FormData();
+      form.append("image", {
+        uri: uri,
+        name: "image.jpg",
+        type: "image/jpeg",
+      });
+      request = new XMLHttpRequest();
+      request.open("POST", `http://${serverUtils.constants.url}:${serverUtils.constants.port}/image/upload`);
+      request.send(form);
+    })
+  );
 }
 
 const validateEmail = (email) => {
