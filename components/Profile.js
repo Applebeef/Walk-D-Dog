@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { useEffect, useState } from "react";
 import Title from "./Title";
 import DogDisplay from "./DogDisplay";
@@ -34,14 +34,16 @@ function Profile({ username }) {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Title />
-      <Text>{username}</Text>
-      <Text>{firstName} {lastName}</Text>
-      <Text>{email}</Text>
-      <CustomButton onPress={navigator.navigate("ChangePassword")} text={"Change password"} />
-      <View style={styles.dog_container}>{dogs}</View>
-    </View>
+    <ScrollView>
+      <View style={styles.container}>
+        <Title />
+        <Text>{username}</Text>
+        <Text>{firstName} {lastName}</Text>
+        <Text>{email}</Text>
+        <CustomButton onPress={navigator.navigate("ChangePassword")} text={"Change password"} />
+        <View style={styles.dog_container}>{dogs}</View>
+      </View>
+    </ScrollView>
   );
 }
 
