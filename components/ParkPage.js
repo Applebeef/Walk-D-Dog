@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { useEffect, useState } from "react";
 import Title from "./Title";
 import serverUtils from "./serverUtils";
@@ -22,7 +22,7 @@ const ParkPage = ({ route, navigation }) => {
   useEffect(() => {
     fetchPark(route.params.id).then((visitors) => {
       let visitorDisplayArray = [];
-      for(let name in visitors){
+      for (let name in visitors) {
         let visitorDisplay = <VisitorDisplay key={name} visitor_name={name} dog_names={visitors[name]} />
         visitorDisplayArray.push(visitorDisplay);
       }
@@ -31,16 +31,18 @@ const ParkPage = ({ route, navigation }) => {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Title />
-      <Text style={styles.title}>{route.params.name}</Text>
-      <Text>{parkVisitors}</Text>
-      <CustomButton
-        onPress={() => navigation.goBack()}
-        text={"Go back"}
-        bgColor="#000000"
-      />
-    </View>
+    <ScrollView>
+      <View style={styles.container}>
+        <Title />
+        <Text style={styles.title}>{route.params.name}</Text>
+        <Text>{parkVisitors}</Text>
+        <CustomButton
+          onPress={() => navigation.goBack()}
+          text={"Go back"}
+          bgColor="#000000"
+        />
+      </View>
+    </ScrollView>
   );
 };
 
