@@ -26,7 +26,7 @@ class Dog {
   }
 }
 
-const PROP = [
+const Genders = [
   {
     key: "Male",
     text: "Male",
@@ -41,9 +41,29 @@ const DogSignUp = ({ route, navigation }) => {
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
   const [image, setImage] = useState();
+  const [gender, setGender] = useState("");
 
   const onAddDogPressed = () => {
-    route.params.dogsAppend(new Dog(name, age, image)); //TODO: send gender to function
+    const data = new FormData();
+    data.append({"image": image, "dog_id": 1});
+    console.log(data)
+    fetch(
+      `http://${serverUtils.constants.url}:${serverUtils.constants.port}/dog/uploadimage`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "multipart/form-data",
+        },
+        body: data,
+      }
+    )
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+      });
+
+    route.params.dogsAppend(new Dog(name, age, image, gender)); //TODO: send gender to function
     navigation.goBack();
   };
 
@@ -78,7 +98,12 @@ const DogSignUp = ({ route, navigation }) => {
           maxLength={2}
         />
 
-        <RadioButton PROP={PROP} />
+        <RadioButton
+          values={Genders}
+          onChange={(newGender) => {
+            setGender(newGender);
+          }}
+        />
         <View>
           <Image source={{ uri: image }} style={{ width: 200, height: 150 }} />
           <View style={styles.pictureButtonsContainer}>

@@ -56,9 +56,13 @@ function sendImagesRequest(image_uris) {
         name: "image.jpg",
         type: "image/jpeg",
       });
-      request = new XMLHttpRequest();
-      request.open("POST", `http://${serverUtils.constants.url}:${serverUtils.constants.port}/image/upload`);
-      request.send(form);
+      return fetch(
+        `http://${serverUtils.constants.url}:${serverUtils.constants.port}/dog/imageupload`,
+        {
+          method: "POST",
+          body: form,
+        }
+      );
     })
   );
 }
@@ -180,7 +184,6 @@ const SignUpScreen = ({ navigation }) => {
         />
         <View style={styles.dog_container}>
           {dogs.map((dog, index) => {
-            console.log(dogs);
             return (
               <DogDisplay
                 key={index}

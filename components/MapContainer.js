@@ -46,7 +46,7 @@ const MapContainer = ({ parkNavigate }) => {
           ).then((res) => {
             handleNearbyParksUpdate(
               res.map((park) => {
-                console.log(park.name);
+                console.log(park.name);//TODO delete this - testing
                 console.log(
                   distance(
                     park.geometry.location.lng,
