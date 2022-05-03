@@ -13,7 +13,28 @@ import SocialSignInButtons from "./SocialSignInButtons";
 import serverUtils from "./serverUtils";
 import DogDisplay from "./DogDisplay";
 
-function sendRegisterRequest(
+const uploadImage = async (image, filename, dog_id) => {
+  let fd = new FormData();
+  fd.append("image", {
+    uri: image,
+    name: filename,
+    type: "image/jpg",
+  });
+  fd.append("dog_id", dog_id);
+  const response = await fetch(
+    `http://${serverUtils.constants.url}:${serverUtils.constants.port}/dog/uploadimage`,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      method: "POST",
+      body: fd,
+    }
+  );
+  return response.json();
+};
+
+async function sendRegisterRequest(
   email,
   password,
   username,
@@ -26,7 +47,6 @@ function sendRegisterRequest(
     {
       method: "POST",
       headers: {
-        Accept: "application/json",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -95,6 +115,14 @@ const SignUpScreen = ({ navigation }) => {
     } else {
       setErrorMessage("");
     }
+    const resp = fetch(
+      `http://${serverUtils.constants.url}:${serverUtils.constants.port}/user/all`,
+      {
+        method: "GET",
+      }
+    )
+    resp.then((response) => console.log());
+
     let response = sendRegisterRequest(
       email,
       password,
@@ -104,15 +132,19 @@ const SignUpScreen = ({ navigation }) => {
       dogs
     );
     response.then((res) => {
-      sendImagesRequest(dogs.map((dog) => dog.image));
-      res.json().then((data) => {
-        if (data) {
-          navigation.navigate("Login");
-        } else {
-          setErrorMessage("Username already exists");
-        }
-      });
+      // console.log(JSON.stringify(res));
     });
+    // response.then((res) => {
+    //   console.log(res.text());
+
+    //   res.json().then((data) => {
+    //     if (data) {
+    //       navigation.navigate("Login");
+    //     } else {
+    //       setErrorMessage("Username already exists");
+    //     }
+    //   });
+    // });
   };
 
   const onForgotPasswordPressed = () => {

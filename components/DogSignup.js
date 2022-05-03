@@ -37,23 +37,6 @@ const Genders = [
   },
 ];
 
-const getImageFromUri = async (uri) => {
-  const response = await fetch(uri)
-  const blob = await response.blob()
-  return blob
-}
-
-const uploadImage = async (image, filename, dog_id) => {
-  let fd = new FormData()
-  fd.append('image', image, filename)
-  fd.append('dog_id', `${dog_id}`)
-  const response = await fetch(`http://${serverUtils.constants.url}:${serverUtils.constants.port}/dog/imageupload`, {
-    method: 'POST',
-    body: fd
-  })
-  return response.json()
-}
-
 const DogSignUp = ({ route, navigation }) => {
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
@@ -61,28 +44,7 @@ const DogSignUp = ({ route, navigation }) => {
   const [gender, setGender] = useState("");
 
   const onAddDogPressed = () => {
-    // const data = new FormData();
-    // blob = getImageFromUri(image);
-    // data.append({ "image": image, "dog_id": 1 });
-    // console.log(data)
-    // fetch(
-    //   `http://${serverUtils.constants.url}:${serverUtils.constants.port}/dog/uploadimage`,
-    //   {
-    //     method: "POST",
-    //     headers: {
-    //       Accept: "application/json",
-    //       "Content-Type": "multipart/form-data",
-    //     },
-    //     body: data,
-    //   }
-    // )
-    //   .then((response) => response.json())
-    //   .then((responseJson) => {
-    //     console.log(responseJson);
-    //   });
-    getImageFromUri(image).then(blob => uploadImage(blob, name + ".jpg", 1)).then(response => console.log(response))
-
-    route.params.dogsAppend(new Dog(name, age, image, gender)); //TODO: send gender to function
+    route.params.dogsAppend(new Dog(name, age, image, gender));
     navigation.goBack();
   };
 
