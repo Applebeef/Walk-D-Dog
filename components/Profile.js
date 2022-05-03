@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Title from "./Title";
 import DogDisplay from "./DogDisplay";
 import CustomButton from "./CustomButton";
+import serverUtils from "./serverUtils";
 
 function Profile({ username }) {
   const [firstName, setFirstName] = useState("");
@@ -12,7 +13,7 @@ function Profile({ username }) {
 
   useEffect(() => {
     fetch(
-      `http://${ServerUtils.constants.url}:${ServerUtils.constants.port}/user/byusername/${username}`,
+      `http://${serverUtils.constants.url}:${serverUtils.constants.port}/user/byusername/${username}`,
       {
         method: "GET",
         headers: {
@@ -26,7 +27,7 @@ function Profile({ username }) {
         setFirstName(responseJson.firstName);
         setLastName(responseJson.lastName);
         setEmail(responseJson.email);
-        setDogs(responseJson.dogs.map((dog) => <DogDisplay dog_name={dog} />));
+        // setDogs(responseJson.dogs.map((dog) => <DogDisplay dog_name={dog} />));
       })
       .catch((error) => {
         console.error(error);
@@ -40,7 +41,7 @@ function Profile({ username }) {
         <Text>{username}</Text>
         <Text>{firstName} {lastName}</Text>
         <Text>{email}</Text>
-        <CustomButton onPress={navigator.navigate("ChangePassword")} text={"Change password"} />
+        <CustomButton  text={"Change password"} />
         <View style={styles.dog_container}>{dogs}</View>
       </View>
     </ScrollView>

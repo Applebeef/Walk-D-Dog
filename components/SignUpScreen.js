@@ -34,6 +34,19 @@ const uploadImage = async (image, filename, dog_id) => {
   return response.json();
 };
 
+async function checkUsername(username) {
+  return fetch(
+    `http://${serverUtils.constants.url}:${serverUtils.constants.port}/user/validate/${username}`,
+    {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    }
+  ).then((response) => response.json());
+}
+
 async function sendRegisterRequest(
   email,
   password,
@@ -64,27 +77,19 @@ async function sendRegisterRequest(
         }),
       }),
     }
+  ).then((response) => response.json());
+}
+
+async function sendImagesRequest(dogs, ids) {
+  Promise.all(
+    dogs.map((dog, index) => {
+      return uploadImage(dog.image, get_filename(dog.image), ids[index]);
+    })
   );
 }
 
-function sendImagesRequest(image_uris) {
-  Promise.all(
-    image_uris.map((uri) => {
-      form = new FormData();
-      form.append("image", {
-        uri: uri,
-        name: "image.jpg",
-        type: "image/jpeg",
-      });
-      return fetch(
-        `http://${serverUtils.constants.url}:${serverUtils.constants.port}/dog/imageupload`,
-        {
-          method: "POST",
-          body: form,
-        }
-      );
-    })
-  );
+function get_filename(path) {
+  return path.split("/").pop();
 }
 
 const validateEmail = (email) => {
@@ -105,25 +110,21 @@ const SignUpScreen = ({ navigation }) => {
   const [dogs, setDogs] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const onRegisterPressed = () => {
+  const onRegisterPressed = async () => {
     if (password !== passwordRepeat) {
       setErrorMessage("Passwords do not match");
       return;
     } else if (!validateEmail(email)) {
       setErrorMessage("Invalid email");
       return;
+    } else if (!checkUsername(username)) {
+      setErrorMessage("Username already exists");
+      return;
     } else {
       setErrorMessage("");
     }
-    const resp = fetch(
-      `http://${serverUtils.constants.url}:${serverUtils.constants.port}/user/all`,
-      {
-        method: "GET",
-      }
-    )
-    resp.then((response) => console.log());
 
-    let response = sendRegisterRequest(
+    let response = await sendRegisterRequest(
       email,
       password,
       username,
@@ -131,20 +132,8 @@ const SignUpScreen = ({ navigation }) => {
       last_name,
       dogs
     );
-    response.then((res) => {
-      // console.log(JSON.stringify(res));
-    });
-    // response.then((res) => {
-    //   console.log(res.text());
-
-    //   res.json().then((data) => {
-    //     if (data) {
-    //       navigation.navigate("Login");
-    //     } else {
-    //       setErrorMessage("Username already exists");
-    //     }
-    //   });
-    // });
+    sendImagesRequest(dogs, response);
+    navigation.navigate("Login");
   };
 
   const onForgotPasswordPressed = () => {

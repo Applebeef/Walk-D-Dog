@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import MapView from "react-native-maps";
 import * as Location from "expo-location";
+import serverUtils from "./serverUtils";
 
 function distance(lon1, lat1, lon2, lat2) {
   var R = 6371; // Radius of earth in kilometers.
@@ -23,11 +24,23 @@ function distance(lon1, lat1, lon2, lat2) {
   return R * c;
 }
 
+async function getKey() {
+  return fetch(
+    `http://${serverUtils.constants.url}:${serverUtils.constants.port}/key/get`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "json/application",
+      },
+    }
+  ).then((response) => response.text());
+}
+
 const MapContainer = ({ parkNavigate }) => {
   const [region, setRegion] = useState(null);
   const [nearbyParks, setNearbyParks] = useState([]);
   const [errorMsg, setErrorMsg] = useState(null);
-  const key = "AIzaSyAHx3VwmotBdOTNMMup8VE5ZoTYC1aGQkA";
+  const [key, setKey] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -46,7 +59,7 @@ const MapContainer = ({ parkNavigate }) => {
           ).then((res) => {
             handleNearbyParksUpdate(
               res.map((park) => {
-                console.log(park.name);//TODO delete this - testing
+                console.log(park.name); //TODO delete this - testing
                 console.log(
                   distance(
                     park.geometry.location.lng,
@@ -91,7 +104,14 @@ const MapContainer = ({ parkNavigate }) => {
     type = '"park"',
     keyword = '"dog park"'
   ) => {
-    let url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=2000&type=${type}&keyword=${keyword}&key=${key}`;
+    let new_key = key;
+    if (key === "") {
+      new_key = await getKey();
+      console.log(new_key);
+      console.log("test");
+      setKey(new_key);
+    }
+    let url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=2000&type=${type}&keyword=${keyword}&key=${new_key}`;
     let response = await fetch(url);
     let responseJson = await response.json();
     return responseJson.results;
