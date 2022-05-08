@@ -1,16 +1,21 @@
 import { Text, View, StyleSheet } from "react-native";
-import React from "react";
-import { DogDisplay } from "./DogDisplay";
+import { useEffect, useState } from "react";
+import DogDisplay from "./DogDisplay";
+import serverUtils from "./serverUtils";
 
-const VisitorDisplay = ({ visitor_name, dog_names }) => {
-  let dogDisplayArray = dog_names.map((dog_name) => (
-    <DogDisplay dog_name={dog_name} />
-  ));
-
+const VisitorDisplay = ({ visitor_name, dogs }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.visitorDisplay}>{visitor_name}</Text>
-      <View style={styles.dog_container}>{dogDisplayArray}</View>
+      <View style={styles.dog_container}>
+        {dogs.map((dog, index) => {
+          let path = `http://${serverUtils.constants.url}:${serverUtils.constants.port}/dogimg/${dog.filename}`;
+          console.log(path);
+          return (
+            <DogDisplay key={index} dog_name={dog.name} dog_image={path} />
+          );
+        })}
+      </View>
     </View>
   );
 };

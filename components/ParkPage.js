@@ -5,16 +5,15 @@ import serverUtils from "./serverUtils";
 import CustomButton from "./CustomButton";
 import VisitorDisplay from "./VisitorDisplay";
 
-const fetchPark = async (id) => {
-  const response = await fetch(
+async function fetchPark(id) {
+  let response = fetch(
     `http://${serverUtils.constants.url}:${serverUtils.constants.port}/park/get/${id}`,
     {
       method: "GET",
     }
-  );
-  const json = await response.json();
-  return json;
-};
+  ).then((response) => response.json());
+  return response;
+}
 
 const ParkPage = ({ route, navigation }) => {
   const [parkVisitors, setParkVisitors] = useState([]);
@@ -23,7 +22,13 @@ const ParkPage = ({ route, navigation }) => {
     fetchPark(route.params.id).then((visitors) => {
       let visitorDisplayArray = [];
       for (let name in visitors) {
-        let visitorDisplay = <VisitorDisplay key={name} visitor_name={name} dog_names={visitors[name]} />
+        let visitorDisplay = (
+          <VisitorDisplay
+            key={name}
+            visitor_name={name}
+            dogs={visitors[name]}
+          />
+        );
         visitorDisplayArray.push(visitorDisplay);
       }
       setParkVisitors(visitorDisplayArray);

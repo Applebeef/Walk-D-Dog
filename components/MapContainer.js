@@ -59,15 +59,15 @@ const MapContainer = ({ parkNavigate }) => {
           ).then((res) => {
             handleNearbyParksUpdate(
               res.map((park) => {
-                console.log(park.name); //TODO delete this - testing
-                console.log(
-                  distance(
-                    park.geometry.location.lng,
-                    park.geometry.location.lat,
-                    location.coords.longitude,
-                    location.coords.latitude
-                  ) * 1000
-                );
+                // console.log(park.name); //TODO delete this - testing
+                // console.log(
+                //   distance(
+                //     park.geometry.location.lng,
+                //     park.geometry.location.lat,
+                //     location.coords.longitude,
+                //     location.coords.latitude
+                //   ) * 1000
+                // );
                 return createParkMarker(park);
               })
             );
@@ -107,8 +107,6 @@ const MapContainer = ({ parkNavigate }) => {
     let new_key = key;
     if (key === "") {
       new_key = await getKey();
-      console.log(new_key);
-      console.log("test");
       setKey(new_key);
     }
     let url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=2000&type=${type}&keyword=${keyword}&key=${new_key}`;
