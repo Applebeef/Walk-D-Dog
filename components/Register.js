@@ -7,6 +7,7 @@ import {
 } from "react-native";
 import { useState, useEffect } from "react";
 import Title from "./Title";
+import serverUtils from "./serverUtils";
 
 function Inputs({ setEmail, email, setPassword, password, setName, name }) {
   return (
@@ -34,6 +35,24 @@ function Inputs({ setEmail, email, setPassword, password, setName, name }) {
   );
 }
 
+function sendRegisterRequest(email, password, username) {
+  return fetch(
+    `http://${serverUtils.constants.url}:${serverUtils.constants.port}/user/register`,
+    {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+        username: username,
+      }),
+    }
+  );
+}
+
 const Register = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -53,7 +72,8 @@ const Register = ({ navigation }) => {
       <TouchableOpacity
         style={styles.button}
         onPress={() => {
-          //TODO send form to server
+          response = sendRegisterRequest(email, password, name);
+          console.log(response); //TODO test
           navigation.navigate("Login");
         }}
       >
@@ -66,7 +86,7 @@ const Register = ({ navigation }) => {
 styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#93C47D",
+    backgroundColor: "#fafafa",
     alignItems: "center",
     justifyContent: "space-around",
   },
@@ -85,7 +105,7 @@ styles = StyleSheet.create({
     borderRadius: 10,
   },
   button: {
-    backgroundColor: "#7fc360",
+    backgroundColor: "#fafafa",
     borderRadius: 10,
     width: 200,
     height: 40,

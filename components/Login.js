@@ -75,6 +75,7 @@ const Login = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Title />
+      <Text style={styles.welcometext}>Welcome</Text>
       <Inputs
         setEmail={setEmail}
         email={email}
@@ -89,7 +90,7 @@ const Login = ({ navigation }) => {
 styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#93C47D",
+    backgroundColor: "#fafafa",
     alignItems: "center",
     justifyContent: "space-around",
   },
@@ -100,6 +101,7 @@ styles = StyleSheet.create({
   },
   input: {
     borderColor: "black",
+    backgroundColor: "#fafafa",
     borderWidth: 1,
     width: 200,
     height: 40,
@@ -108,21 +110,29 @@ styles = StyleSheet.create({
     borderRadius: 10,
   },
   button: {
-    backgroundColor: "#7fc360",
+    backgroundColor: "#fafafa",
     borderRadius: 10,
     width: 200,
     height: 40,
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 5,
+    marginBottom: 15,
     borderColor: "black",
     borderWidth: 1,
   },
   buttonText: {
     fontSize: 18,
     textAlign: "center",
-    fontStyle: "italic",
+    fontStyle: "normal",
   },
+  welcometext:{
+    
+    fontSize: 50,
+    textAlign: "center",
+    fontStyle:"normal",
+    fontFamily: 'sans-serif-thin',
+    fontWeight: 'normal',
+  }
 });
 
 export default Login;
