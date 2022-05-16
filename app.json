@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "Walk-D-Dog",
-    "slug": "walk-d-dog",
+    "name": "WalkDDog",
+    "slug": "walkddog",
+    "owner": "walkddog",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
