@@ -1,68 +1,87 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
-import { useEffect, useState } from "react";
+import {ScrollView, StyleSheet, Text, View} from "react-native";
+import {useEffect, useState} from "react";
 import Title from "./Title";
-import DogDisplay from "./DogDisplay";
 import CustomButton from "./CustomButton";
 import serverUtils from "./serverUtils";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import DogDisplay from "./DogDisplay";
 
-function Profile({ username }) {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [dogs, setDogs] = useState([]);
+function Profile({navigation}) {
+    const [username, setUsername] = useState('');
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const [dogs, setDogs] = useState([]);
 
-  useEffect(() => {
-    fetch(
-      `http://${serverUtils.constants.url}:${serverUtils.constants.port}/user/byusername/${username}`,
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((response) => response.json())
-      .then((responseJson) => {
-        setFirstName(responseJson.firstName);
-        setLastName(responseJson.lastName);
-        setEmail(responseJson.email);
-        // setDogs(responseJson.dogs.map((dog) => <DogDisplay dog_name={dog} />));
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
+    const getUsername = async () => {
+        try {
+            const username = await AsyncStorage.getItem('username')
+            if (username !== null) {
+                return username;
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    };
 
-  return (
-    <ScrollView>
-      <View style={styles.container}>
-        <Title />
-        <Text>{username}</Text>
-        <Text>{firstName} {lastName}</Text>
-        <Text>{email}</Text>
-        <CustomButton  text={"Change password"} />
-        <View style={styles.dog_container}>{dogs}</View>
-      </View>
-    </ScrollView>
-  );
+    async function getProfile(username) {
+        return fetch(
+            `http://${serverUtils.constants.url}:${serverUtils.constants.port}/user/byusername/${username}`,
+            {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+            }
+        ).then((response) => response.json())
+    }
+
+    useEffect(() => {
+        getUsername().then(username => {
+            let response = getProfile(username);
+            response.then(response => {
+                setUsername(response.username);
+                setFirstName(response.first_name);
+                setLastName(response.last_name);
+                setEmail(response.email);
+                console.log(response.dogs);
+                setDogs(response.dogs.map((dog, index) => <DogDisplay key={index} dog_name={dog.name}
+                                                                      dog_image={dog.id + ".jpg"}/>));
+                // setDogs(response.dogs);
+            });
+        })
+
+    }, []);
+
+    return (
+        <ScrollView>
+            <View style={styles.container}>
+                <Title/>
+                <Text>{username}</Text>
+                <Text>{firstName} {lastName}</Text>
+                <Text>{email}</Text>
+                <CustomButton text={"Change password"}/>
+                <View style={styles.dog_container}>{dogs}</View>
+            </View>
+        </ScrollView>
+    );
 }
 
-styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fafafa",
-    alignItems: "center",
-    justifyContent: "space-around",
-  },
-  dog_container: {
-    flex: 1,
-    justifyContent: "space-around",
-    alignItems: "center",
-    width: "90%",
-  },
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: "#fafafa",
+        alignItems: "center",
+        justifyContent: "space-around",
+    },
+    dog_container: {
+        flex: 1,
+        justifyContent: "space-around",
+        alignItems: "center",
+        width: "90%",
+    },
 });
-
 
 
 export default Profile;

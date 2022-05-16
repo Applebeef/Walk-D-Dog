@@ -9,10 +9,9 @@ const VisitorDisplay = ({ visitor_name, dogs }) => {
       <Text style={styles.visitorDisplay}>{visitor_name}</Text>
       <View style={styles.dog_container}>
         {dogs.map((dog, index) => {
-          let path = `http://${serverUtils.constants.url}:${serverUtils.constants.port}/dogimg/${dog.filename}`;
-          console.log(path);
+          // let path = `http://${serverUtils.constants.url}:${serverUtils.constants.port}/dogimg/${dog.filename}`;
           return (
-            <DogDisplay key={index} dog_name={dog.name} dog_image={path} />
+            <DogDisplay key={index} dog_name={dog.name} dog_image={dog.filename} />
           );
         })}
       </View>
@@ -20,7 +19,7 @@ const VisitorDisplay = ({ visitor_name, dogs }) => {
   );
 };
 
-styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "space-around",

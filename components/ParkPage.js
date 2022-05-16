@@ -51,7 +51,7 @@ const ParkPage = ({ route, navigation }) => {
   );
 };
 
-styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "space-around",
