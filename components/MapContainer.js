@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import MapView from "react-native-maps";
 import * as Location from "expo-location";
+import CustomNotification from "./CustomNotification";
 
 function distance(lon1, lat1, lon2, lat2) {
   var R = 6371; // Radius of earth in kilometers.
@@ -79,7 +80,22 @@ const MapContainer = ({ parkNavigate }) => {
       ></MapView.Marker>
     );
   };
+const notificationLocationChecker=(park)=>{
+  let locationRes = await Location.getCurrentPositionAsync({});
+ let distance= distance(
+    park.geometry.location.lng,
+    park.geometry.location.lat,
+    location.coords.longitude,
+    location.coords.latitude
+  ) * 1000
+if(distance<=200){
+  <CustomNotification title="You're close to the park!"
+    text="Let your friends know"
+  />;
 
+}
+
+}
   const handleNearbyParksUpdate = (parks) => {
     setNearbyParks(parks);
   };
