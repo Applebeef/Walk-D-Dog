@@ -9,8 +9,6 @@ import {
 import MapView from "react-native-maps";
 import * as Location from "expo-location";
 import * as TaskManager from "expo-task-manager";
-import * as Notifications from "expo-notifications";
-import * as Device from "expo-device";
 import serverUtils from "./serverUtils";
 
 const PARK_ENTER_TASK = "ParkEnter"
@@ -81,8 +79,24 @@ const MapContainer = ({parkNavigate}) => {
                 console.log(errorMsg);
                 return;
             }
-            // let location = Location.getCurrentPositionAsync({})
+            // let locationRes = await Location.getCurrentPositionAsync({}).then(
+            //     (location) => {
+            //         convertLocationToRegion(location);
+            //         getNearbyPlaces(
+            //             location.coords.latitude,
+            //             location.coords.longitude
+            //         ).then((res) => {
+            //             updateRegionsTasks(res)
+            //             handleNearbyParksUpdate(
+            //                 res.map((park) => {
+            //                     return createParkMarker(park);
+            //                 })
+            //             );
+            //         });
+            //     }
+            // );
             await Location.watchPositionAsync({
+                timeInterval: 2000,
                 distanceInterval: 500,
             }, (location) => {
                 convertLocationToRegion(location);
