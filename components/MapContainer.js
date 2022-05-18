@@ -9,8 +9,11 @@ import {
 import MapView from "react-native-maps";
 import * as Location from "expo-location";
 import * as TaskManager from "expo-task-manager";
+import * as Notifications from "expo-notifications";
+import * as Device from "expo-device";
 import serverUtils from "./serverUtils";
-import {getCurrentPositionAsync} from "expo-location";
+
+const PARK_ENTER_TASK = "ParkEnter"
 
 function distance(lon1, lat1, lon2, lat2) {
     let R = 6371; // Radius of earth in kilometers.
@@ -38,11 +41,12 @@ async function getKey() {
     ).then((response) => response.text());
 }
 
-TaskManager.defineTask("ParkEnter", ({data: {eventType, region}, error}) => {
+TaskManager.defineTask(PARK_ENTER_TASK, ({data: {eventType, region}, error}) => {
     if (error) {
         // check `error.message` for more details.
         return;
     }
+    console.log(region)
     if (eventType === Location.GeofencingEventType.Enter) {
         console.log("You've entered region:", region);
     } else if (eventType === Location.GeofencingEventType.Exit) {
@@ -51,7 +55,7 @@ TaskManager.defineTask("ParkEnter", ({data: {eventType, region}, error}) => {
 });
 
 async function updateRegionsTasks(parks) {
-    const RADIUS = 40;//radius in meters
+    const RADIUS = 40; //radius in meters
     let regions = parks.map((park) => {
         return {
             id: park.place_id,
@@ -60,7 +64,7 @@ async function updateRegionsTasks(parks) {
             radius: RADIUS,
         };
     });
-    await Location.startGeofencingAsync("ParkEnter", regions);
+    await Location.startGeofencingAsync(PARK_ENTER_TASK, regions);
 }
 
 const MapContainer = ({parkNavigate}) => {
@@ -77,25 +81,24 @@ const MapContainer = ({parkNavigate}) => {
                 console.log(errorMsg);
                 return;
             }
-            let location = getCurrentPositionAsync({})
+            // let location = Location.getCurrentPositionAsync({})
+            await Location.watchPositionAsync({
+                distanceInterval: 500,
+            }, (location) => {
+                convertLocationToRegion(location);
+                getNearbyPlaces(
+                    location.coords.latitude,
+                    location.coords.longitude
+                ).then((res) => {
+                    updateRegionsTasks(res)
+                    handleNearbyParksUpdate(
+                        res.map((park) => {
+                            return createParkMarker(park);
+                        })
+                    );
+                });
+            })
             let backgroundStatus = await Location.requestBackgroundPermissionsAsync()
-            console.log(backgroundStatus)
-            let locationRes = await Location.getCurrentPositionAsync({}).then(
-                (location) => {
-                    convertLocationToRegion(location);
-                    getNearbyPlaces(
-                        location.coords.latitude,
-                        location.coords.longitude
-                    ).then((res) => {
-                        updateRegionsTasks(res)
-                        handleNearbyParksUpdate(
-                            res.map((park) => {
-                                return createParkMarker(park);
-                            })
-                        );
-                    });
-                }
-            );
         })();
     }, []);
 
