@@ -47,7 +47,7 @@ function Profile({navigation}) {
                 setEmail(response.email);
                 console.log(response.dogs);
                 setDogs(response.dogs.map((dog, index) => <DogDisplay key={index} dog_name={dog.name}
-                                                                      dog_image={dog.id + ".jpg"}/>));
+                                                                      dog_image={dog.filename}/>));
                 // setDogs(response.dogs);
             });
         })

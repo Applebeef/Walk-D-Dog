@@ -10,18 +10,19 @@ import MapView from "react-native-maps";
 import * as Location from "expo-location";
 import * as TaskManager from "expo-task-manager";
 import serverUtils from "./serverUtils";
+import {getCurrentPositionAsync} from "expo-location";
 
 function distance(lon1, lat1, lon2, lat2) {
-    var R = 6371; // Radius of earth in kilometers.
-    var dLat = ((lat2 - lat1) * Math.PI) / 180;
-    var dLon = ((lon2 - lon1) * Math.PI) / 180;
-    var a =
+    let R = 6371; // Radius of earth in kilometers.
+    let dLat = ((lat2 - lat1) * Math.PI) / 180;
+    let dLon = ((lon2 - lon1) * Math.PI) / 180;
+    let a =
         Math.sin(dLat / 2) * Math.sin(dLat / 2) +
         Math.cos((lat1 * Math.PI) / 180) *
         Math.cos((lat2 * Math.PI) / 180) *
         Math.sin(dLon / 2) *
         Math.sin(dLon / 2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return R * c;
 }
 
@@ -50,7 +51,7 @@ TaskManager.defineTask("ParkEnter", ({data: {eventType, region}, error}) => {
 });
 
 async function updateRegionsTasks(parks) {
-    const RADIUS = 30;//radius in meters
+    const RADIUS = 40;//radius in meters
     let regions = parks.map((park) => {
         return {
             id: park.place_id,
@@ -76,12 +77,9 @@ const MapContainer = ({parkNavigate}) => {
                 console.log(errorMsg);
                 return;
             }
-            let {backgroundStatus} = await Location.requestBackgroundPermissionsAsync()
-            if (backgroundStatus !== "granted") {
-                setErrorMsg("Permission to access location was denied");
-                console.log(errorMsg);
-                return;
-            }
+            let location = getCurrentPositionAsync({})
+            let backgroundStatus = await Location.requestBackgroundPermissionsAsync()
+            console.log(backgroundStatus)
             let locationRes = await Location.getCurrentPositionAsync({}).then(
                 (location) => {
                     convertLocationToRegion(location);
@@ -137,6 +135,7 @@ const MapContainer = ({parkNavigate}) => {
         let response = await fetch(url);
         let responseJson = await response.json();
         return responseJson.results;
+
     };
 
     const convertLocationToRegion = (location) => {
