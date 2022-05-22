@@ -31,6 +31,11 @@ const ParkPage = ({ route, navigation }) => {
         );
         visitorDisplayArray.push(visitorDisplay);
       }
+      if (visitorDisplayArray.length === 0) {
+        visitorDisplayArray.push(
+          <Text key="noVisitors">Looks like the park is empty</Text>
+        );
+      }
       setParkVisitors(visitorDisplayArray);
     });
   }, []);
@@ -40,7 +45,8 @@ const ParkPage = ({ route, navigation }) => {
       <View style={styles.container}>
         <Title />
         <Text style={styles.title}>{route.params.name}</Text>
-        <Text>{parkVisitors}</Text>
+        <Text>In the park:</Text>
+        {parkVisitors}
         <CustomButton
           onPress={() => navigation.goBack()}
           text={"Go back"}

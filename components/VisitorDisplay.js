@@ -28,9 +28,9 @@ const styles = StyleSheet.create({
     },
     dog_container: {
         flex: 1,
+        flexDirection: "row",
         justifyContent: "space-around",
         alignItems: "center",
-        width: "90%",
     },
     visitorDisplay: {
         fontSize: 25,
