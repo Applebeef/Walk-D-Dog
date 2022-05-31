@@ -56,20 +56,20 @@ TaskManager.defineTask(PARK_ENTER_TASK, ({data: {eventType, region}, error}) => 
     }
     if (eventType === Location.GeofencingEventType.Enter) {
         console.log("You've entered region:", region);
+        alert("You've entered region: " + region.identifier);
     } else if (eventType === Location.GeofencingEventType.Exit) {
-        console.log("You've left region:", region);
+        // console.log("You've left region:", region);
     }
 });
 
 async function updateRegionsTasks(parks) {
-    const RADIUS = 30; //radius in metersd
+    const RADIUS = 30; //radius in meters
     let regions = parks.map((park) => {
         return {
             identifier: park.place_id,
             latitude: park.geometry.location.lat,
             longitude: park.geometry.location.lng,
             radius: RADIUS,
-
         };
     });
     await Location.startGeofencingAsync(PARK_ENTER_TASK, regions);
@@ -138,6 +138,21 @@ const MapContainer = ({parkNavigate}) => {
         const notificationListener = useRef();
         const responseListener = useRef();
 
+        function areNearbyParksUpdated(res) {
+            if (res.length !== nearbyParks.length) {
+                setNearbyParks(res);
+                return true;
+            } else {
+                for (let i = 0; i < res.length; i++) {
+                    if (res[i].place_id !== nearbyParks[i].place_id) {
+                        setNearbyParks(res);
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
         useEffect(() => {
                 (async () => {
                     Location.setGoogleApiKey(await getKey());
@@ -148,7 +163,7 @@ const MapContainer = ({parkNavigate}) => {
                         return;
                     }
                     await Location.watchPositionAsync({
-                        timeInterval: 2000,
+                        timeInterval: 30000,
                         distanceInterval: 500,
                     }, (location) => {
                         convertLocationToRegion(location);
@@ -156,7 +171,7 @@ const MapContainer = ({parkNavigate}) => {
                             location.coords.latitude,
                             location.coords.longitude
                         ).then((res) => {
-                            res.push({
+                            res.push({//Debug - add current location as a park - TODO delete
                                 place_id: "home",
                                 name: "Home",
                                 geometry: {
@@ -165,20 +180,25 @@ const MapContainer = ({parkNavigate}) => {
                                         lng: location.coords.longitude,
                                     },
                                 },
-                            })//Debug - add current location as a park - TODO delete
-                            updateRegionsTasks(res)
-                            handleNearbyParksUpdate(
-                                res.map((park) => {
-                                    return createParkMarker(park);
-                                })
-                            );
+                            })
+                            //TODO check if regions changed
+
+                            // handleNearbyParksUpdate(
+                            //     res.map((park) => {
+                            //         return createParkMarker(park);
+                            //     })
+                            // );
+                            let is_updated = areNearbyParksUpdated(res);
+                            if (is_updated) {
+                                updateRegionsTasks(res)
+                            }
                         });
                     })
                     let backgroundStatus = await Location.requestBackgroundPermissionsAsync()
                 })();
             }, []
         )
-        ;
+
 
         const createParkMarker = (park) => {
             return (
@@ -239,7 +259,9 @@ const MapContainer = ({parkNavigate}) => {
                     customMapStyle={mapStyle}
                     style={styles.map}
                 >
-                    {nearbyParks}
+                    {nearbyParks.map((park) => {
+                        return createParkMarker(park);
+                    })}
                 </MapView>
             </View>
         );
