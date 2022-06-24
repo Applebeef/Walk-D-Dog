@@ -1,7 +1,7 @@
 import {StatusBar} from "expo-status-bar";
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Profile from "./components/Profile";
-import Chats from "./components/Chats";
+import FriendsList from "./components/FriendsList";
 import {useState, useEffect} from "react";
 import {NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
@@ -15,6 +15,8 @@ import SignInScreen from "./components/SigninScreen";
 import SignUpScreen from "./components/SignUpScreen";
 import DogSignUp from "./components/DogSignup";
 import ChangePassword from "./components/ChangePassword";
+import FriendProfile from "./components/FriendProfile";
+import InviteFriend from "./components/InviteFriend";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -47,6 +49,17 @@ function MapStack() {
                         </View>
                     ),
                 }}
+            />
+            <Stack.Screen name={"InviteFriend"} component={InviteFriend}
+                          options={{
+                              headerShown: false,
+                              tabBarLabel: "",
+                              tabBarIcon: ({color, size}) => (
+                                  <View>
+                                      <MapLogo/>
+                                  </View>
+                              ),
+                          }}
             />
         </Stack.Navigator>
     );
@@ -85,12 +98,45 @@ function ProfileStack() {
     );
 }
 
+function FriendsStack() {
+    return (
+        <Stack.Navigator initialRouteName="FriendsList">
+            <Stack.Screen
+                name="FriendsList"
+                component={FriendsList}
+                options={{
+                    headerShown: false,
+                    tabBarLabel: "",
+                    tabBarIcon: ({color, size}) => (
+                        <View>
+                            <ProfileLogo/>
+                        </View>
+                    ),
+                }}
+            />
+            <Stack.Screen
+                name="FriendProfile"
+                component={FriendProfile}
+                options={{
+                    headerShown: false,
+                    tabBarLabel: "",
+                    tabBarIcon: ({color, size}) => (
+                        <View>
+                            <ProfileLogo/>
+                        </View>
+                    ),
+                }}
+            />
+        </Stack.Navigator>
+    );
+}
+
 function LoggedInTabs() {
     return (
         <Tab.Navigator style={styles.container}>
             <Tab.Screen
-                name="Chats"
-                component={Chats}
+                name="FriendsStack"
+                component={FriendsStack}
                 options={{
                     headerShown: false,
                     tabBarLabel: "",

@@ -38,6 +38,7 @@ function Profile({navigation}) {
     }
 
     useEffect(() => {
+
         getUsername().then(username => {
             let response = getProfile(username);
             response.then(response => {

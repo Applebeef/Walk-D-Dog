@@ -49,20 +49,24 @@ async function getKey() {
     ).then((response) => response.text());
 }
 
+let regionsMap = {};
+
 TaskManager.defineTask(PARK_ENTER_TASK, ({data: {eventType, region}, error}) => {
     if (error) {
         // check `error.message` for more details.
         return;
     }
-    if (eventType === Location.GeofencingEventType.Enter) {
+    if (eventType === Location.GeofencingEventType.Enter && regionsMap[region.identifier] === Location.GeofencingRegionState.Outside) {
         console.log("You've entered region:", region);
         alert("You've entered region: " + region.identifier);
-    } else if (eventType === Location.GeofencingEventType.Exit) {
-        // console.log("You've left region:", region);
+        regionsMap[region.identifier] = Location.GeofencingRegionState.Inside;
+    } else if (eventType === Location.GeofencingEventType.Exit && regionsMap[region.identifier] === Location.GeofencingRegionState.Inside) {
+        console.log("You've left region:", region);
+        regionsMap[region.identifier] = Location.GeofencingRegionState.Outside;
     }
 });
 
-async function updateRegionsTasks(parks) {
+async function updateRegionsTasks(parks, regionsMap) {
     const RADIUS = 30; //radius in meters
     let regions = parks.map((park) => {
         return {
@@ -162,6 +166,7 @@ const MapContainer = ({parkNavigate}) => {
                         console.log(errorMsg);
                         return;
                     }
+                    let backgroundStatus = await Location.requestBackgroundPermissionsAsync()
                     await Location.watchPositionAsync({
                         timeInterval: 30000,
                         distanceInterval: 500,
@@ -171,30 +176,25 @@ const MapContainer = ({parkNavigate}) => {
                             location.coords.latitude,
                             location.coords.longitude
                         ).then((res) => {
-                            res.push({//Debug - add current location as a park - TODO delete
-                                place_id: "home",
-                                name: "Home",
-                                geometry: {
-                                    location: {
-                                        lat: location.coords.latitude,
-                                        lng: location.coords.longitude,
-                                    },
-                                },
-                            })
-                            //TODO check if regions changed
-
-                            // handleNearbyParksUpdate(
-                            //     res.map((park) => {
-                            //         return createParkMarker(park);
-                            //     })
-                            // );
+                            // res.push({//Debug - add current location as a park - TODO delete
+                            //     place_id: "home",
+                            //     name: "Home",
+                            //     geometry: {
+                            //         location: {
+                            //             lat: location.coords.latitude,
+                            //             lng: location.coords.longitude,
+                            //         },
+                            //     },
+                            // })
                             let is_updated = areNearbyParksUpdated(res);
                             if (is_updated) {
+                                for (let park of res) {
+                                    regionsMap[park.place_id] = Location.GeofencingRegionState.Outside
+                                }
                                 updateRegionsTasks(res)
                             }
                         });
                     })
-                    let backgroundStatus = await Location.requestBackgroundPermissionsAsync()
                 })();
             }, []
         )
