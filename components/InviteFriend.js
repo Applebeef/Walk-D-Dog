@@ -25,6 +25,22 @@ async function getFriends(username) {
     ).then((response) => response.json())
 }
 
+async function sendInvites(friendsToInvite) {
+    return fetch(
+        `http://${serverUtils.constants.url}:${serverUtils.constants.port}/user/parkinvite`,
+        {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                friends: friendsToInvite
+            })
+        }
+    )
+}
+
 
 function InviteFriend({route, navigation}) {
     const [friends, setFriends] = useState([]);
@@ -62,7 +78,12 @@ function InviteFriend({route, navigation}) {
                                                                          removeFromList={removeFromList}/>)}
 
                 </View>
-                <CustomButton text={"Go Back"} onPress={() => navigation.goBack()}/>
+                <CustomButton text={"Go Back"} onPress={() => navigation.goBack()} bgColor={"black"} fgColor={"white"}/>
+                <CustomButton text={"Invite Friends"} onPress={() => {
+                    sendInvites(friendsToInvite).then(() => {
+                        navigation.goBack()
+                    })
+                }} bgColor={"black"} fgColor={"white"}/>
             </View>
         </ScrollView>
     );

@@ -59,7 +59,7 @@ const ParkPage = ({route, navigation}) => {
                         park_id: route.params.id,
                         park_name: route.params.name
                     })}
-            
+
                 />
             </View>
         </ScrollView>
