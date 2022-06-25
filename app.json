@@ -27,7 +27,7 @@
       },
       "config": {
         "googleMaps": {
-          "apiKey": "PUT_YOUR_API_KEY_HERE"
+          "apiKey": "key-here"
         }
       },
       "package": "com.walkddog.walkddog"

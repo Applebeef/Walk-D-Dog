@@ -157,6 +157,32 @@ const MapContainer = ({parkNavigate}) => {
             return false;
         }
 
+        function updateLocationAndParks(location) {
+            convertLocationToRegion(location);
+            getNearbyPlaces(
+                location.coords.latitude,
+                location.coords.longitude
+            ).then((res) => {
+                // res.push({//Debug - add current location as a park - TODO delete
+                //     place_id: "home",
+                //     name: "Home",
+                //     geometry: {
+                //         location: {
+                //             lat: location.coords.latitude,
+                //             lng: location.coords.longitude,
+                //         },
+                //     },
+                // })
+                let is_updated = areNearbyParksUpdated(res);
+                if (is_updated) {
+                    for (let park of res) {
+                        regionsMap[park.place_id] = Location.GeofencingRegionState.Outside
+                    }
+                    updateRegionsTasks(res)
+                }
+            });
+        }
+
         useEffect(() => {
                 (async () => {
                     Location.setGoogleApiKey(await getKey());
@@ -167,33 +193,12 @@ const MapContainer = ({parkNavigate}) => {
                         return;
                     }
                     let backgroundStatus = await Location.requestBackgroundPermissionsAsync()
+                    updateLocationAndParks(await Location.getCurrentPositionAsync());
                     await Location.watchPositionAsync({
                         timeInterval: 30000,
                         distanceInterval: 500,
                     }, (location) => {
-                        convertLocationToRegion(location);
-                        getNearbyPlaces(
-                            location.coords.latitude,
-                            location.coords.longitude
-                        ).then((res) => {
-                            // res.push({//Debug - add current location as a park - TODO delete
-                            //     place_id: "home",
-                            //     name: "Home",
-                            //     geometry: {
-                            //         location: {
-                            //             lat: location.coords.latitude,
-                            //             lng: location.coords.longitude,
-                            //         },
-                            //     },
-                            // })
-                            let is_updated = areNearbyParksUpdated(res);
-                            if (is_updated) {
-                                for (let park of res) {
-                                    regionsMap[park.place_id] = Location.GeofencingRegionState.Outside
-                                }
-                                updateRegionsTasks(res)
-                            }
-                        });
+                        updateLocationAndParks(location);
                     })
                 })();
             }, []
