@@ -242,6 +242,7 @@ const SignUpScreen = ({navigation}) => {
                                 key={index}
                                 dog_name={dog.name}
                                 dog_image={dog.image}
+                                isOnline={"false"}
                             />
                         );
                     })}

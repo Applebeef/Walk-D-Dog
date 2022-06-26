@@ -59,7 +59,7 @@ const VisitorDisplay = ({visitor_name, dogs}) => {
                     {dogs.map((dog, index) => {
                         // let path = `http://${serverUtils.constants.url}:${serverUtils.constants.port}/dogimg/${dog.filename}`;
                         return (
-                            <DogDisplay key={index} dog_name={dog.name} dog_image={dog.filename}/>
+                            <DogDisplay key={index} dog_name={dog.name} dog_image={dog.filename} isOnline={"true"}/>
                         );
                     })}
                 </View>

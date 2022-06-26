@@ -2,12 +2,16 @@ import {Text, View, Image, StyleSheet} from "react-native";
 import React from "react";
 import serverUtils from "./serverUtils";
 
-const DogDisplay = ({dog_name, dog_image}) => {
+const DogDisplay = ({dog_name, dog_image, isOnline}) => {
     let path
-    if (dog_image === "default.jpg") {
-        path = `http://${serverUtils.constants.url}:${serverUtils.constants.port}/${dog_image}`;
+    if (isOnline==="true") {
+        if (dog_image === "default.jpg") {
+            path = `http://${serverUtils.constants.url}:${serverUtils.constants.port}/${dog_image}`;
+        } else {
+            path = `http://${serverUtils.constants.url}:${serverUtils.constants.port}/dogimg/${dog_image}`;
+        }
     } else {
-        path = `http://${serverUtils.constants.url}:${serverUtils.constants.port}/dogimg/${dog_image}`;
+        path = dog_image;
     }
     return (
         <View style={styles.dogDisplay}>

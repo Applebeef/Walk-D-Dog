@@ -29,7 +29,7 @@ function FriendProfile({route, navigation}) {
         setUsername(route.params.username);
         getProfile(route.params.username).then(response => {
             setDogs(response.dogs.map((dog, index) => <DogDisplay key={index} dog_name={dog.name}
-                                                                  dog_image={dog.filename}/>));
+                                                                  dog_image={dog.filename} isOnline={"true"}/>));
         })
     });
 

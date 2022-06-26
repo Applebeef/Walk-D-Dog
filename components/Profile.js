@@ -47,7 +47,7 @@ function Profile({navigation}) {
                 setLastName(response.last_name);
                 setEmail(response.email);
                 setDogs(response.dogs.map((dog, index) => <DogDisplay key={index} dog_name={dog.name}
-                                                                      dog_image={dog.filename}/>));
+                                                                      dog_image={dog.filename} isOnline={"true"}/>));
             });
         })
 
