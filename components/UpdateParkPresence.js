@@ -4,7 +4,7 @@ import Title from "./Title";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import serverUtils from "./serverUtils";
 import CustomButton from "./CustomButton";
-// import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 async function getUsername() {
     try {
@@ -47,15 +47,15 @@ function UpdateParkPresence({route, navigation}) {
         <View style={styles.container}>
             <Title/>
             <CustomButton onPress={showTimepicker} title="Show time picker!"/>
-            {/*{show && (*/}
-            {/*    <DateTimePicker*/}
-            {/*        testID="dateTimePicker"*/}
-            {/*        value={time}*/}
-            {/*        mode={mode}*/}
-            {/*        is24Hour={true}*/}
-            {/*        onChange={onChange}*/}
-            {/*    />*/}
-            {/*)}*/}
+            {show && (
+                <DateTimePicker
+                    testID="dateTimePicker"
+                    value={time}
+                    mode={mode}
+                    is24Hour={true}
+                    onChange={onChange}
+                />
+            )}
             <CustomButton text={"Go Back"} onPress={() => navigation.goBack()} bgColor={"black"} fgColor={"white"}/>
             <CustomButton text={"I'm here"} onPress={() => {
 
