@@ -48,11 +48,6 @@ const ParkPage = ({route, navigation}) => {
                 <Text>In the park:</Text>
                 {parkVisitors}
                 <CustomButton
-                    onPress={() => navigation.goBack()}
-                    text={"Go back"}
-                    bgColor="#000000"
-                />
-                <CustomButton
                     text={"Invite a friend to the park"}
                     bgColor="#000000"
                     onPress={() => navigation.navigate("InviteFriend", {
@@ -60,6 +55,11 @@ const ParkPage = ({route, navigation}) => {
                         park_name: route.params.name
                     })}
 
+                />
+                <CustomButton
+                    onPress={() => navigation.goBack()}
+                    text={"Go back"}
+                    bgColor="#000000"
                 />
             </View>
         </ScrollView>
