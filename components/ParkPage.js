@@ -57,6 +57,14 @@ const ParkPage = ({route, navigation}) => {
 
                 />
                 <CustomButton
+                    text={"I'm here"}
+                    bgColor="#000000"
+                    onPress={() => navigation.navigate("UpdatePresence", {
+                        park_id: route.params.id
+                    })}
+
+                />
+                <CustomButton
                     onPress={() => navigation.goBack()}
                     text={"Go back"}
                     bgColor="#000000"

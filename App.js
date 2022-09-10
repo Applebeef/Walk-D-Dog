@@ -17,6 +17,7 @@ import DogSignUp from "./components/DogSignup";
 import ChangePassword from "./components/ChangePassword";
 import FriendProfile from "./components/FriendProfile";
 import InviteFriend from "./components/InviteFriend";
+import UpdateParkPresence from "./components/UpdateParkPresence"
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -51,6 +52,17 @@ function MapStack() {
                 }}
             />
             <Stack.Screen name={"InviteFriend"} component={InviteFriend}
+                          options={{
+                              headerShown: false,
+                              tabBarLabel: "",
+                              tabBarIcon: ({color, size}) => (
+                                  <View>
+                                      <MapLogo/>
+                                  </View>
+                              ),
+                          }}
+            />
+            <Stack.Screen name={"UpdatePresence"} component={UpdateParkPresence}
                           options={{
                               headerShown: false,
                               tabBarLabel: "",
