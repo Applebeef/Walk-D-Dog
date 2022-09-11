@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, ScrollView, TextInput, Platform} from "react-native";
+import {View, Text, StyleSheet, ScrollView, TextInput, Platform, Alert} from "react-native";
 import {useEffect, useState} from "react";
 import Title from "./Title";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -30,19 +30,64 @@ async function getProfile(username) {
     ).then((response) => response.json())
 }
 
+async function sendUpdate(park_id, username, dogsSelected, hours, minutes) {
+    return fetch(
+        `http://${serverUtils.constants.url}:${serverUtils.constants.port}/park/add`,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                park_id: park_id,
+                visitor_name: username,
+                dog_id: dogsSelected,
+                hours: hours === "" ? 0 : hours,
+                minutes: minutes === "" ? 0 : minutes
+            }),
+        }
+    ).then((response) => response.json());
+}
+
+async function checkIfUserInAPark(username) {
+    return fetch(
+        `http://${serverUtils.constants.url}:${serverUtils.constants.port}/park/check/${username}`,
+        {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+        }
+    ).then((response) => response.json())
+}
+
+async function removeLastVisit(username) {
+    return fetch(
+        `http://${serverUtils.constants.url}:${serverUtils.constants.port}/park/remove/${username}`,
+        {
+            method: "post",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+        }
+    ).then((response) => response.json())
+}
+
 function UpdateParkPresence({route, navigation}) {
     const [hours, setHours] = useState("");
     const [minutes, setMinutes] = useState("");
-    const [dogs, setDogs] = useState([]);
     const [username, setUsername] = useState('');
-    const [dogsSelected, setDogsSelected] = useState([]);
+    const [dogs, setDogs] = useState([]);
+    const [dogsSelected, setDogsSelected] = useState(new Set());
 
     function addToList(dog_id) {
-        setDogsSelected([...dogsSelected, dog_id]);
+        dogsSelected.add(dog_id);
     }
 
     function removeFromList(dog_id) {
-        setDogsSelected(dogsSelected.filter((dog) => dog !== dog_id));
+        dogsSelected.delete(dog_id);
     }
 
     useEffect(() => {
@@ -55,6 +100,18 @@ function UpdateParkPresence({route, navigation}) {
                                                                       dog_id={dog.id}
                                                                       addToList={addToList}
                                                                       removeFromList={removeFromList}/>));
+                checkIfUserInAPark(username).then(response => {
+                    if (response) {
+                        Alert.alert("You are already in a park!do you want to remove your last visit?", "", [
+                            {text: "No", style: "cancel", onPress: () => navigation.goBack()},
+                            {
+                                text: "Yes", onPress: async () => {
+                                    await removeLastVisit(username);
+                                }
+                            }])
+                    }
+
+                })
             });
         })
     }, []);
@@ -112,7 +169,16 @@ function UpdateParkPresence({route, navigation}) {
                     <CustomButton text={"Go Back"} onPress={() => navigation.goBack()} bgColor={"black"}
                                   fgColor={"white"}/>
                     <CustomButton text={"Update"} onPress={() => {
-                        console.log(dogsSelected);
+                        if (hours === "" && minutes === "") {
+                            alert("Please enter a valid time");
+                        } else if (dogsSelected.size === 0) {
+                            alert("Please select at least one dog");
+                        } else {
+                            sendUpdate(route.params.park_id, username, Array.from(dogsSelected), hours, minutes).then(
+                                () => {
+                                    navigation.goBack();
+                                });
+                        }
                     }} bgColor={"black"} fgColor={"white"}/>
                 </View>
             </View>
@@ -140,6 +206,8 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         width: "40%",
         textAlign: "center",
+        direction: "ltr",
+        borderRadius: 10,
     },
     buttons: {
         justifyContent: "space-around",
