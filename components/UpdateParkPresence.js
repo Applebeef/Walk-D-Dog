@@ -102,7 +102,7 @@ function UpdateParkPresence({route, navigation}) {
                                                                       removeFromList={removeFromList}/>));
                 checkIfUserInAPark(username).then(response => {
                     if (response) {
-                        Alert.alert("You are already in a park!do you want to remove your last visit?", "", [
+                        Alert.alert("You are already in a park! do you want to remove your last visit?", "", [
                             {text: "No", style: "cancel", onPress: () => navigation.goBack()},
                             {
                                 text: "Yes", onPress: async () => {

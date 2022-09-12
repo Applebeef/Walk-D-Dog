@@ -76,6 +76,7 @@ async function sendRegisterRequest(
                         name: dog.name,
                         age: dog.age,
                         gender: dog.gender,
+                        breed: dog.breed,
                     };
                 }),
                 push_token: push_token
