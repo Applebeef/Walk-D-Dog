@@ -34,10 +34,10 @@ function FriendProfile({route, navigation}) {
     });
 
     return (
-        <ScrollView>
+        <ScrollView style={{flex: 1}} contentContainerStyle={{flexGrow: 1}}>
             <View style={styles.container}>
                 <Title/>
-                <Text>{username}</Text>
+                <Text style={styles.title}>{username}</Text>
                 <View style={styles.dog_container}>{dogs}</View>
                 <CustomButton text="Back" bgColor={"gray"} fgColor={"black"} onPress={() => navigation.goBack()}/>
             </View>
@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         alignItems: "center",
         justifyContent: "space-around",
+        padding: 35,
     },
     dog_container: {
         flex: 1,
@@ -59,6 +60,12 @@ const styles = StyleSheet.create({
         alignItems: "center",
         width: "90%",
     },
+    title: {
+        fontSize: 30,
+        fontWeight: "bold",
+        color: "black",
+        
+    }
 });
 
 export default FriendProfile;

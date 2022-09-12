@@ -33,7 +33,7 @@ function FriendsList({navigation}) {
 
 
     return (
-        <ScrollView>
+        <ScrollView style={{flex: 1}} contentContainerStyle={{flexGrow: 1}}>
             <View style={styles.container}>
                 <Title/>
                 <Text style={styles.title}>Friends:</Text>
@@ -56,8 +56,8 @@ const styles = StyleSheet.create({
     },
     list: {
         flex: 1,
-        flexDirection: "column",
-        flexWrap: "nowrap",
+        flexDirection: "row",
+        flexWrap: "wrap",
         alignItems: "center",
         padding: 10,
         borderRadius: 10,
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: "black",
         padding: 10,
-    }
+    },
 });
 
 export default FriendsList;

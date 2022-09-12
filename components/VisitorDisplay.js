@@ -86,6 +86,9 @@ const styles = StyleSheet.create({
     visitorDisplay: {
         fontSize: 25,
         textDecorationStyle: "solid",
+        textDecorationLine: "underline",
+        textDecorationColor: "black",
+        alignSelf: "center",
     },
     dogDisplay: {
         fontSize: 20,

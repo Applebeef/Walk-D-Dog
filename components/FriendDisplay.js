@@ -9,7 +9,8 @@ function FriendDisplay({username, navigation}) {
 
     return (
         <View style={styles.container}>
-            <CustomButton text={username} onPress={onPress} fgColor={"black"} bgColor={"gray"}></CustomButton>
+            <CustomButton style={styles.button} text={username} onPress={onPress} fgColor={"black"}
+                          bgColor={"#E2E2E2"}></CustomButton>
         </View>
     );
 }

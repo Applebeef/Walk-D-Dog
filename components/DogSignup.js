@@ -43,6 +43,7 @@ const DogSignUp = ({ route, navigation }) => {
   const [image, setImage] = useState();
   const [gender, setGender] = useState("");
 
+
   const onAddDogPressed = () => {
     route.params.dogsAppend(new Dog(name, age, image, gender));
     navigation.goBack();

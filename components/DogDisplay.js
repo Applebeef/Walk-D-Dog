@@ -21,7 +21,7 @@ const DogDisplay = ({dog_name, dog_image, isOnline, dog_id, addToList, removeFro
             <Text style={styles.dogName}>{dog_name}</Text>
             <Image
                 source={{uri: path}}
-                style={{width: 80, height: 60, borderRadius: 20}}
+                style={{width: 150, height: 112.5, borderRadius: 20}}
             />
             {addToList === undefined && removeFromList === undefined ? null :
                 <CheckBox

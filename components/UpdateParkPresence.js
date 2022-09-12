@@ -139,7 +139,7 @@ function UpdateParkPresence({route, navigation}) {
     }
 
     return (
-        <ScrollView>
+        <ScrollView style={{flex: 1}} contentContainerStyle={{flexGrow: 1}}>
             <View style={styles.container}>
                 <Title/>
                 <Text style={styles.helloText}>
@@ -189,7 +189,7 @@ function UpdateParkPresence({route, navigation}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#93C47D",
+        backgroundColor: "#fafafa",
         alignItems: "center",
         justifyContent: "space-around",
         paddingTop: Platform.OS === "android" ? 40 : 0,

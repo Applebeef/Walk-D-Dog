@@ -45,7 +45,7 @@ const ParkPage = ({route, navigation}) => {
             <View style={styles.container}>
                 <Title/>
                 <Text style={styles.title}>{route.params.name}</Text>
-                <Text>In the park:</Text>
+                <Text style={styles.in_the_park}>In the park:</Text>
                 {parkVisitors}
                 <CustomButton
                     text={"Invite a friend to the park"}
@@ -77,6 +77,7 @@ const ParkPage = ({route, navigation}) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        padding: 35,
         justifyContent: "space-around",
         alignItems: "center",
     },
@@ -84,8 +85,14 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
     title: {
-        fontSize: 30,
+        fontSize: 35,
     },
+    in_the_park: {
+        fontSize: 30,
+        textDecorationStyle: "solid",
+        textDecorationLine: "underline",
+        textDecorationColor: "black",
+    }
 });
 
 export default ParkPage;

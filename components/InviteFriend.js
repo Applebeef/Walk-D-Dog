@@ -68,7 +68,7 @@ function InviteFriend({route, navigation}) {
     }, []);
 
     return (
-        <ScrollView>
+        <ScrollView style={{flex: 1}} contentContainerStyle={{flexGrow: 1}}>
             <View style={styles.container}>
                 <Title/>
                 <Text>Friends:</Text>
@@ -92,9 +92,10 @@ function InviteFriend({route, navigation}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#93C47D",
+        backgroundColor: "#fafafa",
         alignItems: "center",
         justifyContent: "space-around",
+        padding: 35,
     },
     list: {
         flex: 1,
