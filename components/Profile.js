@@ -60,7 +60,6 @@ function Profile({navigation}) {
                 <Text>{username}</Text>
                 <Text>{firstName} {lastName}</Text>
                 <Text>{email}</Text>
-                <CustomButton text={"Change password"}/>
                 <View style={styles.dog_container}>{dogs}</View>
             </View>
         </ScrollView>

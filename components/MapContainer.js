@@ -6,6 +6,7 @@ import {
     TouchableOpacity,
     Image, Platform,
 } from "react-native";
+// import MapView from 'expo'
 import MapView from "react-native-maps";
 import * as Location from "expo-location";
 import * as TaskManager from "expo-task-manager";
@@ -51,33 +52,33 @@ async function getKey() {
 
 let regionsMap = {};
 
-TaskManager.defineTask(PARK_ENTER_TASK, ({data: {eventType, region}, error}) => {
-    if (error) {
-        // check `error.message` for more details.
-        return;
-    }
-    if (eventType === Location.GeofencingEventType.Enter && regionsMap[region.identifier] === Location.GeofencingRegionState.Outside) {
-        console.log("You've entered region:", region);
-        alert("You've entered region: " + region.identifier);
-        regionsMap[region.identifier] = Location.GeofencingRegionState.Inside;
-    } else if (eventType === Location.GeofencingEventType.Exit && regionsMap[region.identifier] === Location.GeofencingRegionState.Inside) {
-        console.log("You've left region:", region);
-        regionsMap[region.identifier] = Location.GeofencingRegionState.Outside;
-    }
-});
+// TaskManager.defineTask(PARK_ENTER_TASK, ({data: {eventType, region}, error}) => {
+//     if (error) {
+//         // check `error.message` for more details.
+//         return;
+//     }
+//     if (eventType === Location.GeofencingEventType.Enter && regionsMap[region.identifier] === Location.GeofencingRegionState.Outside) {
+//         console.log("You've entered region:", region);
+//         alert("You've entered region: " + region.identifier);
+//         regionsMap[region.identifier] = Location.GeofencingRegionState.Inside;
+//     } else if (eventType === Location.GeofencingEventType.Exit && regionsMap[region.identifier] === Location.GeofencingRegionState.Inside) {
+//         console.log("You've left region:", region);
+//         regionsMap[region.identifier] = Location.GeofencingRegionState.Outside;
+//     }
+// });
 
-async function updateRegionsTasks(parks, regionsMap) {
-    const RADIUS = 30; //radius in meters
-    let regions = parks.map((park) => {
-        return {
-            identifier: park.place_id,
-            latitude: park.geometry.location.lat,
-            longitude: park.geometry.location.lng,
-            radius: RADIUS,
-        };
-    });
-    await Location.startGeofencingAsync(PARK_ENTER_TASK, regions);
-}
+// async function updateRegionsTasks(parks, regionsMap) {
+//     const RADIUS = 30; //radius in meters
+//     let regions = parks.map((park) => {
+//         return {
+//             identifier: park.place_id,
+//             latitude: park.geometry.location.lat,
+//             longitude: park.geometry.location.lng,
+//             radius: RADIUS,
+//         };
+//     });
+//     await Location.startGeofencingAsync(PARK_ENTER_TASK, regions);
+// }
 
 async function registerForPushNotificationsAsync() {
     let token;
@@ -178,21 +179,23 @@ const MapContainer = ({parkNavigate}) => {
                     for (let park of res) {
                         regionsMap[park.place_id] = Location.GeofencingRegionState.Outside
                     }
-                    updateRegionsTasks(res)
+                    // updateRegionsTasks(res)
                 }
             });
         }
 
         useEffect(() => {
                 (async () => {
-                    Location.setGoogleApiKey(await getKey());
+                    getKey().then((key) => {
+                        Location.setGoogleApiKey(key);
+                    });
                     let {status} = await Location.requestForegroundPermissionsAsync();
                     if (status !== "granted") {
                         setErrorMsg("Permission to access location was denied");
                         console.log(errorMsg);
                         return;
                     }
-                    let backgroundStatus = await Location.requestBackgroundPermissionsAsync()
+                    // let backgroundStatus = await Location.requestBackgroundPermissionsAsync()
                     updateLocationAndParks(await Location.getCurrentPositionAsync());
                     await Location.watchPositionAsync({
                         timeInterval: 30000,

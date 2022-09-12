@@ -36,7 +36,7 @@ function FriendsList({navigation}) {
         <ScrollView>
             <View style={styles.container}>
                 <Title/>
-                <Text>Friends:</Text>
+                <Text style={styles.title}>Friends:</Text>
                 <View style={styles.list}>
                     {friends.map((friend, index) => <FriendDisplay key={index} username={friend}
                                                                    navigation={navigation}/>)}
@@ -49,9 +49,10 @@ function FriendsList({navigation}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#93C47D",
+        backgroundColor: "#fafafa",
         alignItems: "center",
         justifyContent: "space-around",
+        padding: 35,
     },
     list: {
         flex: 1,
@@ -60,6 +61,12 @@ const styles = StyleSheet.create({
         alignItems: "center",
         padding: 10,
         borderRadius: 10,
+    },
+    title: {
+        fontSize: 20,
+        fontWeight: "bold",
+        color: "black",
+        padding: 10,
     }
 });
 

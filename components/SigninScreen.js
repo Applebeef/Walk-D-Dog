@@ -57,17 +57,17 @@ const SignInScreen = ({navigation}) => {
     };
 
     const onForgotPasswordPressed = () => {
-        console.warn("onForgotPasswordPressed");
+        alert("TBD")
     };
 
     const onSignInFacebook = () => {
-        console.warn("onSignInFacebook");
+        alert("TBD")
     };
     const onSignInGoogle = () => {
-        console.warn("onSignInGoogle");
+        alert("TBD")
     };
     const onSignInApple = () => {
-        console.warn("onSignInApple");
+        alert("TBD")
     };
     const onSignUpPress = () => {
         navigation.navigate("SignUp");

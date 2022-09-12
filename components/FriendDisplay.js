@@ -8,7 +8,7 @@ function FriendDisplay({username, navigation}) {
     }
 
     return (
-        <View>
+        <View style={styles.container}>
             <CustomButton text={username} onPress={onPress} fgColor={"black"} bgColor={"gray"}></CustomButton>
         </View>
     );
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "space-around",
         borderColor: "black",
-        borderWidth: 1,
+        // borderWidth: 1,
         padding: 10,
         borderRadius: 10,
     },
