@@ -199,6 +199,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-around",
         alignItems: "center",
         width: "85%",
+        direction: "ltr",
     },
     clockText: {
         fontSize: 30,

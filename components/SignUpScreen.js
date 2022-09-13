@@ -144,7 +144,7 @@ const SignUpScreen = ({navigation}) => {
         } else if (!validateEmail(email)) {
             setErrorMessage("Invalid email");
             return;
-        } else if (!checkUsername(username)) {
+        } else if (!await checkUsername(username)) {
             setErrorMessage("Username already exists");
             return;
         } else {
