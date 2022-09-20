@@ -87,7 +87,7 @@ const Login = ({ navigation }) => {
   );
 };
 
-styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fafafa",
@@ -126,7 +126,7 @@ styles = StyleSheet.create({
     fontStyle: "normal",
   },
   welcometext:{
-    
+
     fontSize: 50,
     textAlign: "center",
     fontStyle:"normal",

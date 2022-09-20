@@ -5,9 +5,9 @@
     "owner": "walkddog",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/WalkDDog-Logo.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/WalkDDog-Logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -22,9 +22,15 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/WalkDDog-Logo.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "config": {
+        "googleMaps": {
+          "apiKey": "API_KEY"
+        }
+      },
+      "package": "com.walkddog.walkddog"
     },
     "web": {
       "favicon": "./assets/favicon.png"

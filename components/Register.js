@@ -72,7 +72,7 @@ const Register = ({ navigation }) => {
       <TouchableOpacity
         style={styles.button}
         onPress={() => {
-          response = sendRegisterRequest(email, password, name);
+          let response = sendRegisterRequest(email, password, name);
           console.log(response); //TODO test
           navigation.navigate("Login");
         }}
@@ -83,7 +83,7 @@ const Register = ({ navigation }) => {
   );
 };
 
-styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fafafa",

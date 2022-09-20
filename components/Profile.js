@@ -10,7 +10,6 @@ function Profile({navigation}) {
     const [username, setUsername] = useState('');
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
-    const [email, setEmail] = useState("");
     const [dogs, setDogs] = useState([]);
 
     const getUsername = async () => {
@@ -38,30 +37,26 @@ function Profile({navigation}) {
     }
 
     useEffect(() => {
+
         getUsername().then(username => {
             let response = getProfile(username);
             response.then(response => {
                 setUsername(response.username);
                 setFirstName(response.first_name);
                 setLastName(response.last_name);
-                setEmail(response.email);
-                console.log(response.dogs);
                 setDogs(response.dogs.map((dog, index) => <DogDisplay key={index} dog_name={dog.name}
-                                                                      dog_image={dog.id + ".jpg"}/>));
-                // setDogs(response.dogs);
+                                                                      dog_image={dog.filename} isOnline={"true"}/>));
             });
         })
 
     }, []);
 
     return (
-        <ScrollView>
+        <ScrollView style={{flex: 1}} contentContainerStyle={{flexGrow: 1}}>
             <View style={styles.container}>
                 <Title/>
-                <Text>{username}</Text>
-                <Text>{firstName} {lastName}</Text>
-                <Text>{email}</Text>
-                <CustomButton text={"Change password"}/>
+                <Text style={styles.text}>{username}</Text>
+                <Text style={styles.text}>{firstName} {lastName}</Text>
                 <View style={styles.dog_container}>{dogs}</View>
             </View>
         </ScrollView>
@@ -74,13 +69,21 @@ const styles = StyleSheet.create({
         backgroundColor: "#fafafa",
         alignItems: "center",
         justifyContent: "space-around",
+        padding: 35,
     },
     dog_container: {
         flex: 1,
+        flexDirection: "row",
+        flexWrap: "wrap",
         justifyContent: "space-around",
         alignItems: "center",
         width: "90%",
     },
+    text: {
+        fontSize: 20,
+        fontWeight: "bold",
+        color: "black",
+    }
 });
 
 
